@@ -1,0 +1,41 @@
+# ROYAL MALAYSIAN CUSTOMS DEPARTMENT (JABATAN KASTAM DIRAJA MALAYSIA - RMCD)
+## SERVICE TAX POLICY 2024: IMPLEMENTATION OF 8% SERVICE TAX RATE
+**Effective Date:** 1 March 2024  
+**Governing Act:** Service Tax Act 2018 & Service Tax Regulations 2018  
+
+---
+
+### [Page 2] Section 1: Rate Adjustment and Scope
+#### 1.1 Revised Service Tax Rate
+Effective from **1 March 2024**, the standard Service Tax rate in Malaysia was officially increased from **6% to 8%** for most taxable services. 
+
+#### 1.2 Exempted Sectors Remaining at 6% Rate
+To alleviate the cost of living on basic consumer needs, the following key service categories remain taxed at the old rate of **6%**:
+1. **Food and Beverage (F&B) Services (Group B)**: Restaurants, cafes, caterers, food trucks, and bakeries remain subject to **6% Service Tax**.
+2. **Telecommunications Services (Group I)**: Mobile calls, broadband, internet access retain the **6%** rate.
+3. **Parking Space Services (Group I)**: Provision of motor vehicle parking spaces remains at **6%**.
+4. **Logistics Services (Group J)**: Newly gazetted logistics and courier services are taxed at **6%** (not 8%).
+
+---
+
+### [Page 7] Section 2: Services Taxed at 8% Rate
+The new **8% Service Tax rate** applies to all professional, consultancy, and business services under Group G:
+1. **Legal Services**: Advocacy, drafting, litigation.
+2. **Accounting, Auditing, Bookkeeping & Tax Consulting**: Corporate tax filings, SST reviews, e-invoice readiness consultations.
+3. **Engineering & Architectural Services**.
+4. **Management & Business Consulting Services**: HR consultancy, strategy, project management.
+5. **Information Technology Services**: Software customization, cloud software licenses, SaaS subscriptions, IT infrastructure maintenance.
+6. **Digital Services provided by Foreign Registered Persons (FRP)**: Streaming media, cloud storage, foreign SaaS platforms are taxed at **8%**.
+
+---
+
+### [Page 12] Section 3: Threshold and Registration
+#### 3.1 Statutory Registration Threshold
+A person or company is liable to register for Service Tax if the total value of taxable services provided in a 12-month period exceeds the threshold:
+- **General Professional Services (Group G)**: **RM 500,000** annual taxable turnover.
+- **F&B Operators (Group B)**: **RM 1,500,000** annual taxable turnover (sale of food and beverages).
+- **Hotel and Lodging Operators (Group A)**: **RM 500,000** annual threshold.
+
+#### 3.2 B2B Exemption Rule (Intra-Group Exemption)
+Under the Service Tax (Person Exempted from Payment of Tax) Order 2018:
+- A registered professional (e.g. an IT company) providing services to another registered IT company who uses it as an input for providing the same taxable IT service to an end client may qualify for **B2B Service Tax Exemption**, eliminating double taxation cascading effects.

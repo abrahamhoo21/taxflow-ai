@@ -1,0 +1,42 @@
+# ROYAL MALAYSIAN CUSTOMS DEPARTMENT (JABATAN KASTAM DIRAJA MALAYSIA - RMCD)
+## GUIDE ON SALES TAX ON LOW VALUE GOODS (LVG)
+**Effective Date:** 1 January 2024  
+**Governing Legislation:** Sales Tax Act 2018 (Part III A - Section 11A to 11N)  
+
+---
+
+### [Page 1] Chapter 1: Legislative Background & Scope
+#### 1.1 Purpose of Sales Tax on LVG
+Prior to 2024, goods imported into Malaysia with a CIF (Cost, Insurance, and Freight) value under de minimis threshold (RM 500) were exempted from sales tax and import duty. To create a level playing field between local retailers and foreign online sellers, Malaysia introduced Sales Tax on Low Value Goods (LVG) effective **1 January 2024**.
+
+#### 1.2 Definition of Low Value Goods (LVG)
+Low Value Goods (LVG) are defined as:
+- All goods (excluding cigarettes, tobacco products, intoxicating liquors, and smoking pipes)
+- Sold at a price **not exceeding RM 500.00** per item/consignment
+- Brought into Malaysia from outside Malaysia via air, sea, or land postal and courier services.
+
+---
+
+### [Page 5] Chapter 2: Tax Rate and Calculation
+#### 2.1 Prescribed Sales Tax Rate
+The prescribed rate of Sales Tax on LVG is **10% flat rate**.
+
+#### 2.2 Tax Base Calculation
+The 10% sales tax is charged strictly on the **sale price of the goods**, EXCLUDING:
+- Transportation and delivery charges
+- Insurance fees
+- Any duties or import levies imposed on the delivery.
+
+*Example Calculation:*
+A consumer buys a mechanical keyboard from a foreign seller for RM 300, with RM 40 international shipping fee.
+- Taxable Base = RM 300
+- Sales Tax on LVG (10%) = RM 30.00
+- Total amount payable by consumer = RM 300 + RM 30 (Tax) + RM 40 (Shipping) = **RM 370.00**.
+
+---
+
+### [Page 9] Chapter 3: Registration and Compliance
+#### 3.1 Who Must Register as Registered Seller (RS)?
+Both foreign and local sellers, including online marketplaces (such as Shopee, Lazada, Amazon, Taobao, or standalone e-commerce sites):
+- If the total sales value of LVG sold to consumers in Malaysia exceeds **RM 500,000 within a 12-month period**.
+- Registered sellers are assigned an **LVG Registration Number** which must be printed on the consignment package label to prevent double taxation at the Royal Malaysian Customs checkpoint.

@@ -1,0 +1,42 @@
+# INLAND REVENUE BOARD OF MALAYSIA (LEMBAGA HASIL DALAM NEGERI MALAYSIA - LHDN)
+## PUBLIC RULING NO. 1/2024: WITHHOLDING TAX ON SPECIAL CLASSES OF INCOME
+**Publication Date:** 15 January 2024  
+**Governing Act:** Sections 107A, 109, 109B, and 109F of the Income Tax Act 1967 (ITA 1967)  
+
+---
+
+### [Page 3] Part 1: Scope of Withholding Tax (WHT)
+#### 1.1 Overview
+Where a person is liable to make payment to a non-resident person for specified types of Malaysian-derived income, the payer in Malaysia is legally obligated under the Income Tax Act 1967 to withhold tax at the statutory rate and remit it to the Director General of Inland Revenue within **one (1) month** after paying or crediting the non-resident.
+
+---
+
+### [Page 6] Part 2: Statutory Withholding Tax Rates
+
+#### 2.1 Section 107A: Contract Payments to Non-Resident Contractors
+For services rendered in Malaysia in connection with a contract project:
+- **10%** on account of tax payable by the non-resident contractor.
+- **3%** on account of tax payable by employees of the non-resident contractor.
+- **Total Combined Rate: 13%**.
+
+#### 2.2 Section 109: Interest and Royalty Payments
+- **Royalties** paid to a non-resident: **10%** gross withholding tax.
+- **Interest** paid to a non-resident: **15%** gross withholding tax (unless reduced under a Double Taxation Agreement - DTA).
+
+#### 2.3 Section 109B: Special Classes of Income
+Applies to:
+1. Amounts paid in consideration of services rendered by a non-resident person or his employee in connection with the use of property, installation, or operation of apparatus.
+2. Amounts paid for technical advice, assistance, or services rendered in connection with management or administration.
+3. Rent or other payments made under any agreement for the use of moveable property.
+- **Statutory Rate: 10%** of the gross amount.
+- *Location of Service:* Effective from Finance Act 2018 amendments, services rendered **either in Malaysia or outside Malaysia** are subject to Section 109B Withholding Tax if derived from Malaysia.
+
+---
+
+### [Page 12] Part 3: Remittance Timeline, Penalties & Deductibility
+#### 3.1 Remittance Deadline
+The payer must remit the withheld tax to LHDN within **one (1) month from the date of payment or crediting** the non-resident, accompanied by Form CP37 or Form CP37D.
+
+#### 3.2 Consequences of Non-Compliance
+1. **Late Payment Penalty**: If the payer fails to withhold or remit within the 1-month period, a statutory penalty of **10%** is imposed on the unpaid tax amount under Section 109B(2).
+2. **Disallowance of Expense (Double Jeopardy)**: Under Section 39(1)(j) of the ITA 1967, the entire expense (100% of the contract or technical fee) is **disallowed as a tax deduction** in the payer's corporate tax return until the withholding tax and penalty are fully settled!

@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YYC taxPOD CRM - Visual Prototype</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    body { background-color: #090d16; color: #f1f5f9; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    .sidebar-active { background-color: rgba(56, 189, 248, 0.12); color: #38bdf8; border-right: 2px solid #38bdf8; }
+    .kanban-col { min-height: 480px; }
+  </style>
+</head>
+<body class="flex h-screen overflow-hidden text-sm">
+
+  <!-- LEFT SIDEBAR -->
+  <aside class="w-64 bg-[#0d1322] border-r border-slate-800 flex flex-col justify-between p-4 flex-shrink-0">
+    <div class="space-y-6">
+      <!-- Logo -->
+      <div class="flex items-center gap-3 px-2">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 to-cyan-400 flex items-center justify-center font-black text-white text-base shadow-lg shadow-blue-500/20">
+          YYC
+        </div>
+        <div>
+          <div class="font-bold text-slate-100 tracking-tight leading-none text-base">taxPOD CRM</div>
+          <div class="text-[11px] text-slate-400 mt-0.5">Enterprise Sales & AI</div>
+        </div>
+      </div>
+
+      <!-- Nav Items -->
+      <nav class="space-y-1">
+        <button onclick="showScreen('dashboard')" id="nav-dashboard" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:bg-slate-800/60 font-medium transition text-left sidebar-active">
+          <span>📊</span> Dashboard
+        </button>
+        <button onclick="showScreen('leads')" id="nav-leads" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:bg-slate-800/60 font-medium transition text-left">
+          <span>👤</span> Leads & Contacts
+        </button>
+        <button onclick="showScreen('kanban')" id="nav-kanban" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:bg-slate-800/60 font-medium transition text-left">
+          <span>📋</span> Pipeline (Kanban)
+        </button>
+        <button onclick="toggleNotesModal()" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-purple-400 hover:bg-purple-950/30 border border-purple-500/20 font-medium transition text-left mt-2">
+          <span>✨</span> Meeting Notes AI
+        </button>
+      </nav>
+    </div>
+
+    <!-- Bottom Tax AI Toggle & User Profile -->
+    <div class="space-y-3 pt-4 border-t border-slate-800">
+      <button onclick="toggleRAGDrawer()" class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl bg-gradient-to-r from-blue-950/60 to-purple-950/60 border border-blue-500/30 text-blue-300 hover:border-blue-400 transition shadow-sm">
+        <div class="flex items-center gap-2">
+          <span>🤖</span>
+          <span class="font-semibold text-xs">Tax RAG Assistant</span>
+        </div>
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+      </button>
+
+      <div class="flex items-center gap-3 px-2 pt-1">
+        <div class="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center font-bold text-xs text-white">
+          AB
+        </div>
+        <div class="overflow-hidden">
+          <div class="font-medium text-xs text-slate-200 truncate">Abraham (Sales Rep)</div>
+          <div class="text-[10px] text-slate-500">Kuala Lumpur Office</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN VIEWPORT -->
+  <main class="flex-1 flex flex-col overflow-y-auto bg-[#090d16]">
+    
+    <!-- Top Bar -->
+    <header class="h-16 border-b border-slate-800 px-8 flex items-center justify-between bg-[#090d16]/80 backdrop-blur sticky top-0 z-10">
+      <div>
+        <h1 id="page-title" class="text-lg font-bold text-slate-100">Executive Dashboard</h1>
+        <p id="page-subtitle" class="text-xs text-slate-400">High-level sales metrics & real-time revenue pipeline</p>
+      </div>
+      <div class="flex items-center gap-3">
+        <button onclick="toggleNotesModal()" class="px-3 py-1.5 rounded-lg bg-purple-600 hover:bg-purple-500 text-white font-medium text-xs flex items-center gap-1.5 shadow-md shadow-purple-600/20 transition">
+          <span>📝</span> Extract Notes (Option B)
+        </button>
+        <button onclick="toggleRAGDrawer()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-medium text-xs flex items-center gap-1.5 transition">
+          <span>🔍</span> Query Tax Laws
+        </button>
+      </div>
+    </header>
+
+    <!-- CONTENT CONTAINERS -->
+    <div class="p-8 space-y-6 flex-1">
+
+      <!-- ================= 1. DASHBOARD SCREEN ================= -->
+      <div id="screen-dashboard" class="space-y-6">
+        <!-- KPI Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div class="p-5 rounded-2xl bg-[#0f172a] border border-slate-800 shadow-sm">
+            <div class="text-xs font-medium text-slate-400">Total Contacts</div>
+            <div class="text-2xl font-black text-slate-100 mt-1">128</div>
+            <div class="text-[11px] text-emerald-400 mt-1">↑ 12 new this month</div>
+          </div>
+          <div class="p-5 rounded-2xl bg-[#0f172a] border border-slate-800 shadow-sm">
+            <div class="text-xs font-medium text-slate-400">Open Opportunities</div>
+            <div class="text-2xl font-black text-blue-400 mt-1">14 Deals</div>
+            <div class="text-[11px] text-slate-400 mt-1">In active discussion</div>
+          </div>
+          <div class="p-5 rounded-2xl bg-[#0f172a] border border-slate-800 shadow-sm">
+            <div class="text-xs font-medium text-slate-400">Total Pipeline Value</div>
+            <div class="text-2xl font-black text-amber-400 mt-1">RM 485,000</div>
+            <div class="text-[11px] text-amber-500/80 mt-1">Across 5 pipeline stages</div>
+          </div>
+          <div class="p-5 rounded-2xl bg-[#0f172a] border border-slate-800 shadow-sm">
+            <div class="text-xs font-medium text-slate-400">Deals Won (This Qtr)</div>
+            <div class="text-2xl font-black text-emerald-400 mt-1">RM 160,000</div>
+            <div class="text-[11px] text-emerald-500/80 mt-1">6 closed contracts</div>
+          </div>
+        </div>
+
+        <!-- Recent Activity Feed & Mini Pipeline -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <!-- Activity Timeline -->
+          <div class="lg:col-span-2 p-6 rounded-2xl bg-[#0f172a] border border-slate-800">
+            <div class="flex items-center justify-between mb-4">
+              <h2 class="font-bold text-sm text-slate-100">Recent Activity Feed</h2>
+              <span class="text-xs text-slate-400">Real-time audit log</span>
+            </div>
+            <div class="space-y-4">
+              <div class="flex items-start gap-3 pb-3 border-b border-slate-800/60">
+                <span class="p-2 rounded-lg bg-blue-500/10 text-blue-400 text-xs">📞</span>
+                <div class="flex-1 text-xs">
+                  <div class="font-semibold text-slate-200">Phone Call with Dato Sri Jeffrey (Mega Logistics)</div>
+                  <div class="text-slate-400 mt-0.5">Discussed e-invoicing Phase 2 deployment timeline. Budget approx RM 55k.</div>
+                  <div class="text-[10px] text-slate-500 mt-1">Today at 2:30 PM • Logged by Abraham</div>
+                </div>
+              </div>
+              <div class="flex items-start gap-3 pb-3 border-b border-slate-800/60">
+                <span class="p-2 rounded-lg bg-purple-500/10 text-purple-400 text-xs">📝</span>
+                <div class="flex-1 text-xs">
+                  <div class="font-semibold text-slate-200">AI Note Extracted: Berjaya Food Retail</div>
+                  <div class="text-slate-400 mt-0.5">Auto-created new opportunity: SST 8% Compliance Audit (RM 35,000).</div>
+                  <div class="text-[10px] text-slate-500 mt-1">Yesterday at 4:15 PM • Via Option B AI</div>
+                </div>
+              </div>
+              <div class="flex items-start gap-3">
+                <span class="p-2 rounded-lg bg-emerald-500/10 text-emerald-400 text-xs">🎉</span>
+                <div class="flex-1 text-xs">
+                  <div class="font-semibold text-slate-200">Stage Moved: Sunway Tech (RM 80,000) ➔ WON</div>
+                  <div class="text-slate-400 mt-0.5">Signed corporate e-learning annual license for 200 finance users.</div>
+                  <div class="text-[10px] text-slate-500 mt-1">2 days ago • Opportunity Closed</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Actions & RAG Status -->
+          <div class="p-6 rounded-2xl bg-[#0f172a] border border-slate-800 flex flex-col justify-between">
+            <div>
+              <h2 class="font-bold text-sm text-slate-100 mb-3">Malaysian Tax RAG Status</h2>
+              <div class="p-3 rounded-xl bg-slate-900 border border-slate-800 mb-3">
+                <div class="text-xs font-semibold text-emerald-400 flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-emerald-400"></span> 5 Official Tax Docs Ingested
+                </div>
+                <div class="text-[11px] text-slate-400 mt-1 leading-relaxed">
+                  • LHDN e-Invoice Guidelines v3.0<br>
+                  • Specific Guidelines (Phase 1-3)<br>
+                  • RMCD Service Tax Guide (8%)<br>
+                  • RMCD Sales Tax (LVG) Guide<br>
+                  • Public Ruling No. 1/2024
+                </div>
+              </div>
+              <div class="text-[11px] text-slate-400">
+                Vector store: <span class="text-blue-400 font-mono">pgvector (768d)</span><br>
+                Model: <span class="text-purple-400 font-mono">gemini-1.5-flash</span>
+              </div>
+            </div>
+            <button onclick="toggleRAGDrawer()" class="w-full mt-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-medium text-xs transition text-center shadow-lg shadow-blue-600/20">
+              Ask Tax Question Now ➔
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= 2. LEADS SCREEN ================= -->
+      <div id="screen-leads" class="hidden space-y-4">
+        <!-- Search and Filter bar -->
+        <div class="flex items-center justify-between gap-4 bg-[#0f172a] p-4 rounded-2xl border border-slate-800">
+          <div class="flex items-center gap-3 flex-1 max-w-md">
+            <span class="text-slate-400">🔍</span>
+            <input type="text" placeholder="Search contacts by name, email, or company..." class="w-full bg-transparent border-0 text-xs text-slate-100 placeholder-slate-500 focus:outline-none" />
+          </div>
+          <div class="flex items-center gap-3">
+            <select class="bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-300">
+              <option>All Statuses</option>
+              <option>Lead</option>
+              <option>Prospect</option>
+              <option>Customer</option>
+            </select>
+            <button class="px-3 py-1.5 rounded-lg bg-blue-600 text-white font-medium text-xs hover:bg-blue-500 transition">
+              + New Lead
+            </button>
+          </div>
+        </div>
+
+        <!-- Table -->
+        <div class="rounded-2xl border border-slate-800 overflow-hidden bg-[#0f172a]">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-900/60 border-b border-slate-800 text-slate-400 uppercase text-[10px] tracking-wider font-semibold">
+              <tr>
+                <th class="p-4">Name</th>
+                <th class="p-4">Company</th>
+                <th class="p-4">Email / Phone</th>
+                <th class="p-4">Status</th>
+                <th class="p-4 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800/60 text-slate-200">
+              <tr class="hover:bg-slate-800/30 transition">
+                <td class="p-4 font-semibold">Dato Sri Jeffrey</td>
+                <td class="p-4 text-slate-400">Mega Logistics Bhd</td>
+                <td class="p-4">jeffrey@megalogistics.com.my<br><span class="text-slate-500 text-[10px]">012-3889123</span></td>
+                <td class="p-4"><span class="px-2.5 py-1 rounded-full bg-blue-500/10 text-blue-400 font-medium text-[10px]">Prospect</span></td>
+                <td class="p-4 text-right space-x-2">
+                  <button class="text-slate-400 hover:text-white">Edit</button>
+                  <button class="text-red-400 hover:text-red-300">Delete</button>
+                </td>
+              </tr>
+              <tr class="hover:bg-slate-800/30 transition">
+                <td class="p-4 font-semibold">Cynthia Wong</td>
+                <td class="p-4 text-slate-400">Berjaya Food Sdn Bhd</td>
+                <td class="p-4">cynthia.w@berjayafood.my<br><span class="text-slate-500 text-[10px]">017-9102233</span></td>
+                <td class="p-4"><span class="px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-400 font-medium text-[10px]">Lead</span></td>
+                <td class="p-4 text-right space-x-2">
+                  <button class="text-slate-400 hover:text-white">Edit</button>
+                  <button class="text-red-400 hover:text-red-300">Delete</button>
+                </td>
+              </tr>
+              <tr class="hover:bg-slate-800/30 transition">
+                <td class="p-4 font-semibold">Marcus Tan</td>
+                <td class="p-4 text-slate-400">Sunway Tech Group</td>
+                <td class="p-4">marcus.tan@sunway.com.my<br><span class="text-slate-500 text-[10px]">019-4455667</span></td>
+                <td class="p-4"><span class="px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 font-medium text-[10px]">Customer</span></td>
+                <td class="p-4 text-right space-x-2">
+                  <button class="text-slate-400 hover:text-white">Edit</button>
+                  <button class="text-red-400 hover:text-red-300">Delete</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ================= 3. KANBAN SCREEN ================= -->
+      <div id="screen-kanban" class="hidden space-y-4">
+        <div class="flex items-center justify-between">
+          <div class="text-xs text-slate-400">
+            Drag and drop deals across stages. All values calculated in <span class="font-bold text-amber-400">Malaysian Ringgit (RM)</span>.
+          </div>
+          <button class="px-3 py-1.5 rounded-lg bg-blue-600 text-white font-medium text-xs hover:bg-blue-500 transition">
+            + New Opportunity
+          </button>
+        </div>
+
+        <!-- 5 Kanban Columns -->
+        <div class="grid grid-cols-5 gap-3 overflow-x-auto pb-4">
+          
+          <!-- Column: New -->
+          <div class="bg-[#0f172a] rounded-2xl p-3 border border-slate-800 kanban-col flex flex-col">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-800 mb-3">
+              <span class="font-bold text-xs text-slate-300">New (2)</span>
+              <span class="text-[10px] text-slate-400 font-mono">RM 35,000</span>
+            </div>
+            <div class="space-y-2.5 flex-1">
+              <div class="p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 cursor-grab shadow-sm">
+                <div class="font-semibold text-xs text-slate-200">Apex Hardware SST Audit</div>
+                <div class="text-[11px] text-slate-400 mt-1">Apex Trading Sdn Bhd</div>
+                <div class="flex items-center justify-between mt-3 pt-2 border-t border-slate-800 text-[10px]">
+                  <span class="font-bold text-amber-400">RM 15,000</span>
+                  <span class="text-slate-500">Yesterday</span>
+                </div>
+              </div>
+              <div class="p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 cursor-grab shadow-sm">
+                <div class="font-semibold text-xs text-slate-200">e-Invoice Readiness Check</div>
+                <div class="text-[11px] text-slate-400 mt-1">Pentas Flora</div>
+                <div class="flex items-center justify-between mt-3 pt-2 border-t border-slate-800 text-[10px]">
+                  <span class="font-bold text-amber-400">RM 20,000</span>
+                  <span class="text-slate-500">3d ago</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Column: Contacted -->
+          <div class="bg-[#0f172a] rounded-2xl p-3 border border-slate-800 kanban-col flex flex-col">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-800 mb-3">
+              <span class="font-bold text-xs text-blue-300">Contacted (1)</span>
+              <span class="text-[10px] text-slate-400 font-mono">RM 55,000</span>
+            </div>
+            <div class="space-y-2.5 flex-1">
+              <div class="p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 cursor-grab shadow-sm">
+                <div class="font-semibold text-xs text-slate-200">Phase 2 Tax Consulting</div>
+                <div class="text-[11px] text-slate-400 mt-1">Mega Logistics Bhd</div>
+                <div class="flex items-center justify-between mt-3 pt-2 border-t border-slate-800 text-[10px]">
+                  <span class="font-bold text-amber-400">RM 55,000</span>
+                  <span class="text-blue-400">Call held</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Column: Qualified -->
+          <div class="bg-[#0f172a] rounded-2xl p-3 border border-slate-800 kanban-col flex flex-col">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-800 mb-3">
+              <span class="font-bold text-xs text-amber-300">Qualified (1)</span>
+              <span class="text-[10px] text-slate-400 font-mono">RM 75,000</span>
+            </div>
+            <div class="space-y-2.5 flex-1">
+              <div class="p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 cursor-grab shadow-sm">
+                <div class="font-semibold text-xs text-slate-200">Corporate Masterclass (30 Pax)</div>
+                <div class="text-[11px] text-slate-400 mt-1">Top Glove Group</div>
+                <div class="flex items-center justify-between mt-3 pt-2 border-t border-slate-800 text-[10px]">
+                  <span class="font-bold text-amber-400">RM 75,000</span>
+                  <span class="text-amber-400">Budget OK</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Column: Proposal -->
+          <div class="bg-[#0f172a] rounded-2xl p-3 border border-slate-800 kanban-col flex flex-col">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-800 mb-3">
+              <span class="font-bold text-xs text-purple-300">Proposal (1)</span>
+              <span class="text-[10px] text-slate-400 font-mono">RM 160,000</span>
+            </div>
+            <div class="space-y-2.5 flex-1">
+              <div class="p-3 rounded-xl bg-slate-900 border border-purple-500/30 hover:border-purple-400 cursor-grab shadow-sm">
+                <div class="font-semibold text-xs text-slate-200">Enterprise e-Invoice Migration</div>
+                <div class="text-[11px] text-slate-400 mt-1">Inari Amertron</div>
+                <div class="flex items-center justify-between mt-3 pt-2 border-t border-slate-800 text-[10px]">
+                  <span class="font-bold text-amber-400">RM 160,000</span>
+                  <span class="text-purple-400">Sent Quotation</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Column: Won / Lost -->
+          <div class="bg-[#0f172a] rounded-2xl p-3 border border-slate-800 kanban-col flex flex-col">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-800 mb-3">
+              <span class="font-bold text-xs text-emerald-300">Won (1)</span>
+              <span class="text-[10px] text-emerald-400 font-mono font-bold">RM 160,000</span>
+            </div>
+            <div class="space-y-2.5 flex-1">
+              <div class="p-3 rounded-xl bg-slate-900 border border-emerald-500/30 cursor-grab shadow-sm">
+                <div class="font-semibold text-xs text-slate-200">taxPOD Portal License</div>
+                <div class="text-[11px] text-slate-400 mt-1">Sunway Tech Group</div>
+                <div class="flex items-center justify-between mt-3 pt-2 border-t border-slate-800 text-[10px]">
+                  <span class="font-bold text-emerald-400">RM 160,000</span>
+                  <span class="text-emerald-400">Closed 🎉</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ================= TAX RAG CHAT DRAWER (RIGHT SLIDE-OVER) ================= -->
+  <div id="rag-drawer" class="fixed inset-y-0 right-0 w-96 bg-[#0c1220] border-l border-slate-800 shadow-2xl flex flex-col z-50 transform translate-x-full transition-transform duration-300 ease-in-out">
+    <div class="p-4 border-b border-slate-800 flex items-center justify-between bg-[#0f172a]">
+      <div class="flex items-center gap-2">
+        <span class="text-base">🤖</span>
+        <div>
+          <div class="font-bold text-xs text-slate-100">Tax Knowledge RAG Assistant</div>
+          <div class="text-[10px] text-emerald-400">Grounded on 5 LHDN/Customs PDFs</div>
+        </div>
+      </div>
+      <button onclick="toggleRAGDrawer()" class="text-slate-400 hover:text-white text-base">✕</button>
+    </div>
+
+    <!-- Chat Messages -->
+    <div class="flex-1 p-4 overflow-y-auto space-y-4 text-xs">
+      <!-- User message -->
+      <div class="flex justify-end">
+        <div class="max-w-[85%] bg-blue-600 text-white rounded-2xl rounded-tr-sm p-3 shadow-sm leading-relaxed">
+          When is Phase 1 of LHDN e-invoicing mandatory, and for which companies?
+        </div>
+      </div>
+
+      <!-- AI Response with citations -->
+      <div class="flex justify-start">
+        <div class="max-w-[90%] bg-slate-900 border border-slate-800 text-slate-200 rounded-2xl rounded-tl-sm p-3.5 space-y-2.5 shadow-sm leading-relaxed">
+          <p>
+            According to the official guidelines, <b>Phase 1</b> implementation begins on <b>1 August 2024</b> for taxpayers with an annual turnover or revenue exceeding <b>RM 100 million</b>.
+          </p>
+          
+          <!-- Exact Citation Badge -->
+          <div class="p-2 rounded-lg bg-blue-950/40 border border-blue-500/30 text-[11px] text-blue-300 space-y-1">
+            <div class="font-semibold flex items-center gap-1.5">
+              <span>📌</span> Citation:
+            </div>
+            <div>Document: <span class="font-mono text-slate-200">LHDN_eInvoice_Guidelines_v3.0.pdf</span></div>
+            <div>Location: <span class="text-amber-400 font-semibold">Page 6, Section 1.4 (Implementation Timeline)</span></div>
+          </div>
+
+          <div class="text-[10px] text-emerald-400 flex items-center gap-1">
+            <span>🛡️</span> Grounded from vector search (Cosine: 0.89)
+          </div>
+        </div>
+      </div>
+
+      <!-- Test Hallucination Guard -->
+      <div class="flex justify-end">
+        <div class="max-w-[85%] bg-blue-600 text-white rounded-2xl rounded-tr-sm p-3 shadow-sm leading-relaxed">
+          What is the tax rate in Singapore for 2025?
+        </div>
+      </div>
+
+      <div class="flex justify-start">
+        <div class="max-w-[90%] bg-slate-900 border border-amber-500/30 text-slate-200 rounded-2xl rounded-tl-sm p-3.5 space-y-2 shadow-sm leading-relaxed">
+          <div class="text-amber-400 font-semibold flex items-center gap-1">
+            <span>⚠️</span> Hallucination Guard Activated:
+          </div>
+          <p class="text-slate-300 text-xs">
+            "The ingested knowledge base only contains Malaysian tax documents (LHDN and RMCD). Information regarding Singapore tax rates is not found in the provided official documents."
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chat Input -->
+    <div class="p-3 border-t border-slate-800 bg-[#0f172a]">
+      <div class="flex items-center gap-2 bg-slate-900 border border-slate-700 rounded-xl px-3 py-2">
+        <input type="text" placeholder="Ask a Malaysian tax question..." class="w-full bg-transparent border-0 text-xs text-slate-100 placeholder-slate-500 focus:outline-none" />
+        <button class="w-6 h-6 rounded-lg bg-blue-600 hover:bg-blue-500 text-white flex items-center justify-center text-xs flex-shrink-0">➔</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= OPTION B: MEETING NOTES EXTRACTOR MODAL ================= -->
+  <div id="notes-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+    <div class="w-full max-w-2xl bg-[#0f172a] border border-slate-800 rounded-2xl shadow-2xl overflow-hidden flex flex-col">
+      <div class="p-5 border-b border-slate-800 flex items-center justify-between">
+        <div>
+          <h2 class="font-bold text-sm text-slate-100 flex items-center gap-2">
+            <span>✨</span> Meeting Notes Extractor (Human-in-the-Loop)
+          </h2>
+          <p class="text-[11px] text-slate-400">Paste raw meeting notes to auto-extract contacts, deal value, and action items</p>
+        </div>
+        <button onclick="toggleNotesModal()" class="text-slate-400 hover:text-white">✕</button>
+      </div>
+
+      <div class="p-6 space-y-4">
+        <!-- Raw Input -->
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Raw Meeting / WhatsApp Notes:</label>
+          <textarea rows="3" class="w-full p-3 rounded-xl bg-slate-900 border border-slate-700 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-purple-500" placeholder="e.g. Drink kopi with Mr. Lee from Sunway Logistics (012-3456789). Budget around RM 40,000 for e-invoice. Follow up with proposal by Friday.">Met Ms. Jenny from Apex Engineering (019-8877665). They need SST 8% advisory for 4 subsidiaries. Budget around RM 45,000. Send formal quotation by next Monday.</textarea>
+        </div>
+
+        <button class="w-full py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-semibold text-xs flex items-center justify-center gap-2 transition shadow-md shadow-purple-600/20">
+          <span>⚡</span> Extract with Gemini Flash (JSON Schema)
+        </button>
+
+        <!-- Structured Preview Card (Human in the loop) -->
+        <div class="p-4 rounded-xl bg-purple-950/20 border border-purple-500/30 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-purple-300">🔍 AI Structured Output Preview (Editable)</span>
+            <span class="text-[10px] px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 font-mono">Zod Validated</span>
+          </div>
+          
+          <div class="grid grid-cols-2 gap-3 text-xs">
+            <div>
+              <span class="text-[10px] text-slate-400">Contact Name:</span>
+              <input type="text" value="Ms. Jenny" class="w-full mt-0.5 p-1.5 rounded bg-slate-900 border border-slate-700 text-xs text-slate-200" />
+            </div>
+            <div>
+              <span class="text-[10px] text-slate-400">Company:</span>
+              <input type="text" value="Apex Engineering" class="w-full mt-0.5 p-1.5 rounded bg-slate-900 border border-slate-700 text-xs text-slate-200" />
+            </div>
+            <div>
+              <span class="text-[10px] text-slate-400">Deal Value (RM):</span>
+              <input type="text" value="45,000" class="w-full mt-0.5 p-1.5 rounded bg-slate-900 border border-slate-700 text-xs text-amber-400 font-bold" />
+            </div>
+            <div>
+              <span class="text-[10px] text-slate-400">Pipeline Stage:</span>
+              <select class="w-full mt-0.5 p-1.5 rounded bg-slate-900 border border-slate-700 text-xs text-slate-200">
+                <option selected>Qualified</option>
+                <option>New</option>
+                <option>Contacted</option>
+                <option>Proposal</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-4 border-t border-slate-800 bg-slate-900/60 flex items-center justify-end gap-3">
+        <button onclick="toggleNotesModal()" class="px-4 py-2 rounded-xl text-xs text-slate-400 hover:text-white">Cancel</button>
+        <button onclick="alert('Successfully saved to Leads and Kanban Opportunities!'); toggleNotesModal();" class="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs transition shadow-lg shadow-emerald-600/20">
+          ✓ Confirm &amp; Save to CRM
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function showScreen(screen) {
+      document.getElementById('screen-dashboard').classList.toggle('hidden', screen !== 'dashboard');
+      document.getElementById('screen-leads').classList.toggle('hidden', screen !== 'leads');
+      document.getElementById('screen-kanban').classList.toggle('hidden', screen !== 'kanban');
+
+      document.getElementById('nav-dashboard').classList.toggle('sidebar-active', screen === 'dashboard');
+      document.getElementById('nav-leads').classList.toggle('sidebar-active', screen === 'leads');
+      document.getElementById('nav-kanban').classList.toggle('sidebar-active', screen === 'kanban');
+
+      const titleMap = {
+        dashboard: ['Executive Dashboard', 'High-level sales metrics & real-time revenue pipeline'],
+        leads: ['Leads & Contact Management', 'Search, filter, and manage sales contacts across status lifecycles'],
+        kanban: ['Opportunity Pipeline (Kanban)', 'Track deals by stage with automated RM value calculations']
+      };
+      document.getElementById('page-title').innerText = titleMap[screen][0];
+      document.getElementById('page-subtitle').innerText = titleMap[screen][1];
+    }
+
+    function toggleRAGDrawer() {
+      const drawer = document.getElementById('rag-drawer');
+      drawer.classList.toggle('translate-x-full');
+    }
+
+    function toggleNotesModal() {
+      const modal = document.getElementById('notes-modal');
+      modal.classList.toggle('hidden');
+    }
+  </script>
+</body>
+</html>

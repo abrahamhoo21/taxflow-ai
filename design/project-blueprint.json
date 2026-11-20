@@ -1,0 +1,39 @@
+{
+  "projectName": "YYC taxPOD CRM & Tax RAG Assistant",
+  "candidate": "Abraham (KL, Malaysia)",
+  "targetRole": "Software Engineer (Full Stack & AI Integration)",
+  "techStack": {
+    "framework": "Next.js 14+ (App Router, TypeScript)",
+    "styling": "Tailwind CSS + shadcn/ui + Lucide Icons",
+    "database": "Supabase (PostgreSQL + pgvector)",
+    "aiEngine": "Google Gemini 1.5 Flash + text-embedding-004",
+    "documentProcessing": "PDF parser + smart chunking + vector search"
+  },
+  "modules": [
+    {
+      "id": "crm-leads",
+      "name": "Leads Management",
+      "features": ["CRUD Operations", "Status Badges (Lead, Prospect, Customer)", "Search & Filter"]
+    },
+    {
+      "id": "crm-opportunities",
+      "name": "Opportunity Pipeline",
+      "features": ["Kanban Board grouped by stages", "Deal Value in RM", "Drag & Drop"]
+    },
+    {
+      "id": "crm-dashboard",
+      "name": "Metrics Dashboard",
+      "features": ["Total Contacts", "Open Opportunities Count", "Total Pipeline Value (RM)", "Recent Activity Feed"]
+    },
+    {
+      "id": "rag-tax-assistant",
+      "name": "Malaysian Tax RAG Q&A",
+      "features": ["5 Official Tax PDFs Ingested", "Top-K pgvector retrieval", "Accurate Citations (Doc + Page)", "Hallucination Guard"]
+    },
+    {
+      "id": "option-b-notes-extractor",
+      "name": "Meeting Notes Extractor (AI)",
+      "features": ["Paste raw unstructured meeting text", "Extract Contacts & Actions", "Human-in-the-loop Review & Save"]
+    }
+  ]
+}

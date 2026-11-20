@@ -1,0 +1,46 @@
+# INLAND REVENUE BOARD OF MALAYSIA (LEMBAGA HASIL DALAM NEGERI MALAYSIA - LHDN)
+## e-INVOICE SPECIFIC GUIDELINES
+**Publication Date:** June 2024  
+**Scope:** Specific B2B, B2C, B2G, Cross-Border, and Self-Billed Transactions  
+
+---
+
+### [Page 4] Section 1: Business-to-Consumer (B2C) Transactions
+#### 1.1 Individual Buyer Requirements
+When issuing invoices to individual retail consumers who do not require an e-Invoice for personal income tax deduction purposes, suppliers may issue regular receipts or invoices as per existing practices.
+However, if the buyer requests an e-Invoice:
+- The supplier MUST issue an individual validated e-Invoice to the buyer.
+- The buyer must provide: Full Name, NRIC/Passport Number, TIN (or General TIN: EI00000000020 if none), Address, Phone Number.
+
+#### 1.3 Consolidated e-Invoice (Monthly Aggregation)
+For consumers who do not request an individual e-Invoice:
+- Suppliers are permitted to consolidate transactions into a single **Consolidated e-Invoice**.
+- **Deadline**: The consolidated e-Invoice must be submitted to LHDN within **7 calendar days** following the end of the transaction month.
+- Aggregation is NOT permitted for high-value items, luxury vehicles, or sales of goods to foreign tourists claiming Tourist Tax Refund.
+
+---
+
+### [Page 11] Section 2: Cross-Border & Foreign Supplier Transactions
+#### 2.1 Importation of Goods and Services
+When a Malaysian business imports services or goods from a foreign supplier outside Malaysia:
+- The foreign supplier will not issue an LHDN e-Invoice.
+- The Malaysian buyer is legally required to issue a **Self-Billed e-Invoice** to document the expenditure for income tax deductibility under Section 33(1) of the ITA 1967.
+- **Timing of Self-Billed e-Invoice**: Must be issued upon payment made to the foreign supplier or receipt of foreign invoice, whichever is earlier.
+
+#### 2.4 Exportation of Goods and Services
+When exporting to overseas buyers:
+- The Malaysian exporter must issue an e-Invoice with Buyer TIN recorded as `EI00000000030` (General foreign buyer TIN) and Buyer Registration Number as `NA`.
+- The Custom Export Declaration (K2 Form) reference must be cross-referenced in the line item descriptions.
+
+---
+
+### [Page 18] Section 3: Disbursements vs Reimbursements
+#### 3.1 Disbursements (Agent Capacity)
+A disbursement occurs when an entity pays an amount on behalf of the client acting strictly as an agent:
+- The supplier issues the invoice directly under the client's name.
+- The agent does not include the payment in its own e-Invoice, as it does not constitute revenue or expense for the agent.
+
+#### 3.2 Reimbursements (Principal Capacity)
+A reimbursement occurs when an entity incurs expenses on its own account in the course of providing services to a client (e.g., flight, accommodation):
+- The agent must issue an e-Invoice to the client including the reimbursed expenses as taxable line items.
+- Any applicable Service Tax (SST) must be charged if the agent is a registered taxable person.

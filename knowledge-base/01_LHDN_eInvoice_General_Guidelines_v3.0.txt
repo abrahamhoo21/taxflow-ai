@@ -1,0 +1,57 @@
+# INLAND REVENUE BOARD OF MALAYSIA (LEMBAGA HASIL DALAM NEGERI MALAYSIA - LHDN)
+## e-INVOICE GENERAL GUIDELINES (VERSION 3.0)
+**Publication Date:** 28 June 2024  
+**Applicability:** All taxpayers undertaking commercial activities in Malaysia  
+**Governing Legislation:** Section 82, Section 82C of the Income Tax Act 1967 (ITA 1967)
+
+---
+
+### [Page 1] Chapter 1: Introduction and Statutory Scope
+#### 1.1 Overview of e-Invoice in Malaysia
+An Electronic Invoice (e-Invoice) is a digital representation of a transaction between a supplier and a buyer, replacing traditional paper or electronic documents (such as PDF, Word, or paper invoices). e-Invoice covers invoices, credit notes, debit notes, and refund notes.
+
+#### 1.2 Legislative Mandate
+Under Section 82C of the Income Tax Act 1967, the Director General of Inland Revenue (DGIR) requires taxpayers to issue e-Invoices in the prescribed format through the MyInvois Portal or via API integration. Failure to issue an e-Invoice constitutes an offence under Section 120(1)(d) of the ITA 1967, liable to a fine between RM 200 and RM 20,000 or imprisonment for a term not exceeding 6 months, or both.
+
+---
+
+### [Page 6] Chapter 2: Implementation Timeline & Thresholds
+#### 1.4 Phased Implementation Schedule
+To facilitate smooth business transition, LHDN mandates e-invoicing in three distinct phases based on annual turnover or revenue reported in audited financial statements:
+
+1. **Phase 1 (Mandatory Effective Date: 1 August 2024):**
+   - Taxpayers with an annual turnover or revenue exceeding **RM 100,000,000 (RM 100 Million)** based on 2022 audited financial statements.
+2. **Phase 2 (Mandatory Effective Date: 1 January 2025):**
+   - Taxpayers with an annual turnover or revenue between **RM 25,000,000 (RM 25 Million)** and **RM 100,000,000 (RM 100 Million)**.
+3. **Phase 3 (Mandatory Effective Date: 1 July 2025):**
+   - **All other taxpayers**, including small and medium enterprises (SMEs), sole proprietorships, partnerships, and individual businesses, regardless of turnover threshold.
+
+*Note on Voluntary Adoption:* Taxpayers in Phase 2 or Phase 3 are permitted to adopt e-invoicing voluntarily earlier than their mandated deadline.
+
+---
+
+### [Page 14] Chapter 3: Data Fields and Structural Standards
+#### 2.1 Core Data Fields
+An e-Invoice in Malaysia comprises **55 total data fields** grouped into nine categories:
+1. **Address Information**: Supplier and Buyer physical addresses, city, postal zone, state code, and country code (MY).
+2. **Business Details**: Legal Entity Name, Malaysian TIN (Tax Identification Number), Registration Number (SSM / NRIC / Passport).
+3. **Contact Information**: Phone number and email address of authorized representatives.
+4. **Invoice Details**: Unique Invoice Number, e-Invoice Type code (01 for Standard Invoice, 02 for Credit Note, 03 for Debit Note, 04 for Refund Note), Original Invoice Reference (for notes).
+5. **Dates & Times**: Issue Date, Issue Time, Validation Date and Time (stamped by LHDN).
+6. **Payment Information**: Payment Mode (e.g. Bank Transfer, DuitNow, Credit Card), Bank Account Number, Payment Terms.
+7. **Line Item Details**: Classification Code, Product/Service Description, Unit Price in RM, Quantity, Measurement Unit, Discount Amount, Tax Type, Tax Rate, Tax Amount.
+8. **Summary Totals**: Total Excluding Tax, Total Tax Amount, Total Discount, Total Payable Amount (in MYR).
+9. **Digital Signature**: Cryptographic signature generated using X.509 digital certificates.
+
+---
+
+### [Page 22] Chapter 4: Transmission, Validation & Cancellation
+#### 2.5 Validation Mechanism via MyInvois System
+Suppliers submit e-Invoices in JSON or XML format to LHDN via API or Web Portal. 
+- LHDN validates the cryptographic structure and assigns a unique **LHDN Unique Identifier Number (UUID)** along with a validation timestamp and QR code.
+- **Rejection Notice**: Invoices containing invalid TINs or arithmetic errors will be automatically rejected by the MyInvois engine with error status codes.
+
+#### 2.8 Cancellation and Rejection Window
+- **Cancellation by Supplier**: A supplier may cancel a validated e-Invoice within **72 hours** from validation, stating legitimate reasons.
+- **Rejection by Buyer**: A buyer may submit a rejection request within **72 hours** if errors are identified.
+- After the 72-hour window expires, amendments must be executed via official Credit Notes or Debit Notes.
