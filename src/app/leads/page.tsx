@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { Lead, LeadStatus } from '@/types/crm';
+import { ERROR_CODES, ERROR_MESSAGES } from '@/constants/errors';
 
 export default function LeadsPage() {
   const [leads, setLeads] = useState<Lead[]>([]);
@@ -71,7 +72,7 @@ export default function LeadsPage() {
         fetchLeads();
       }
     } catch {
-      alert('Failed to create lead');
+      alert(ERROR_MESSAGES[ERROR_CODES.LEAD_CREATE_FAILED]);
     }
   };
 
@@ -106,10 +107,10 @@ export default function LeadsPage() {
         setEditLead(null);
         fetchLeads();
       } else {
-        alert('Failed to update lead');
+        alert(ERROR_MESSAGES[ERROR_CODES.LEAD_UPDATE_FAILED]);
       }
     } catch {
-      alert('Failed to update lead');
+      alert(ERROR_MESSAGES[ERROR_CODES.LEAD_UPDATE_FAILED]);
     }
   };
 
@@ -119,7 +120,7 @@ export default function LeadsPage() {
       await fetch(`/api/leads?id=${id}`, { method: 'DELETE' });
       fetchLeads();
     } catch {
-      alert('Failed to delete lead');
+      alert(ERROR_MESSAGES[ERROR_CODES.LEAD_DELETE_FAILED]);
     }
   };
 

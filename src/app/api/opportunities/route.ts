@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { CRMService } from '@/services/crm.service';
+import { ERROR_CODES, createErrorResponse } from '@/constants/errors';
 
 /**
  * Opportunities API Controller (Thin Controller Layer)
@@ -11,7 +12,7 @@ export async function GET() {
     return NextResponse.json(opportunities);
   } catch (error: unknown) {
     const errorMsg = error instanceof Error ? error.message : String(error);
-    return NextResponse.json({ error: errorMsg }, { status: 500 });
+    return createErrorResponse(ERROR_CODES.INTERNAL_SERVER_ERROR, errorMsg, 500);
   }
 }
 
@@ -21,7 +22,7 @@ export async function POST(request: Request) {
     const { lead_id, title, value_rm, stage } = body;
 
     if (!lead_id || !title) {
-      return NextResponse.json({ error: 'Missing mandatory fields: lead_id, title' }, { status: 400 });
+      return createErrorResponse(ERROR_CODES.OPPORTUNITY_MISSING_FIELDS, undefined, 400);
     }
 
     const opportunity = await CRMService.createOpportunity({
@@ -33,7 +34,7 @@ export async function POST(request: Request) {
     return NextResponse.json(opportunity, { status: 201 });
   } catch (error: unknown) {
     const errorMsg = error instanceof Error ? error.message : String(error);
-    return NextResponse.json({ error: errorMsg }, { status: 500 });
+    return createErrorResponse(ERROR_CODES.INTERNAL_SERVER_ERROR, errorMsg, 500);
   }
 }
 
@@ -43,7 +44,7 @@ export async function PATCH(request: Request) {
     const { id, stage, value_rm } = body;
 
     if (!id || !stage) {
-      return NextResponse.json({ error: 'Missing mandatory fields: id, stage' }, { status: 400 });
+      return createErrorResponse(ERROR_CODES.OPPORTUNITY_MISSING_FIELDS, undefined, 400);
     }
 
     const updated = await CRMService.updateOpportunityStage(
@@ -54,6 +55,6 @@ export async function PATCH(request: Request) {
     return NextResponse.json(updated);
   } catch (error: unknown) {
     const errorMsg = error instanceof Error ? error.message : String(error);
-    return NextResponse.json({ error: errorMsg }, { status: 500 });
+    return createErrorResponse(ERROR_CODES.INTERNAL_SERVER_ERROR, errorMsg, 500);
   }
 }

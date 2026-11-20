@@ -43,6 +43,17 @@ The project enforces strict **Separation of Concerns (SoC)** across 4 distinct l
 3. **Malaysian Currency Standards**:
    - All financial amounts must be tracked in **Malaysian Ringgit (MYR / RM)**.
    - Use centralized currency formatting utilities (`formatRM(value)`).
+4. **Centralized Error Codes & Messages**:
+   - **NEVER** hardcode raw error strings or inline error messages inside API controllers (`src/app/api/`) or UI components.
+   - **ALWAYS** define and import error codes and user-facing messages from `src/constants/errors.ts` (`ERROR_CODES`, `ERROR_MESSAGES`, `createErrorResponse(...)`).
+   - Example:
+     ```ts
+     // BAD:
+     return NextResponse.json({ error: 'Missing mandatory fields' }, { status: 400 });
+
+     // GOOD:
+     return createErrorResponse(ERROR_CODES.LEAD_MISSING_FIELDS, undefined, 400);
+     ```
 
 ---
 

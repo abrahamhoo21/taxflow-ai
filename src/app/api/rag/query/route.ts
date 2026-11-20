@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { TaxRAGService } from '@/services/rag.service';
+import { ERROR_CODES, createErrorResponse } from '@/constants/errors';
 
 /**
  * Tax RAG Query API Controller (Thin Controller Layer)
@@ -11,7 +12,7 @@ export async function POST(request: Request) {
     const { question, top_k, similarity_threshold } = body;
 
     if (!question || typeof question !== 'string') {
-      return NextResponse.json({ error: 'Question string is mandatory' }, { status: 400 });
+      return createErrorResponse(ERROR_CODES.RAG_MISSING_QUESTION, undefined, 400);
     }
 
     const response = await TaxRAGService.queryTaxLaws(question, top_k, similarity_threshold);
@@ -19,6 +20,6 @@ export async function POST(request: Request) {
   } catch (error: unknown) {
     const errorMsg = error instanceof Error ? error.message : String(error);
     console.error('RAG query controller error:', errorMsg);
-    return NextResponse.json({ error: errorMsg }, { status: 500 });
+    return createErrorResponse(ERROR_CODES.INTERNAL_SERVER_ERROR, errorMsg, 500);
   }
 }

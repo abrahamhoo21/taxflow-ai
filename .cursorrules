@@ -1,0 +1,9 @@
+# Project Rules & Guidelines
+Please read and strictly adhere to `AGENTS.md` in the project root:
+- Follow Clean Architecture (Presentation -> API Controllers -> Services -> Infra/DB).
+- "Zero Hardcoding" Rule:
+  - All status/stage enums from `src/constants/crm.ts`
+  - All error codes and messages from `src/constants/errors.ts`
+  - All financial numbers formatted in RM via `formatRM`
+- Zero `any` in TypeScript.
+- Strict Hallucination Guardrails & Source Citations for Tax RAG.
