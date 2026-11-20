@@ -128,6 +128,9 @@ async function runIngestion() {
         } else {
           totalChunksIngested++;
         }
+
+        // Small pause to prevent rate limiting
+        await new Promise(resolve => setTimeout(resolve, 150));
       } catch (err: unknown) {
         const errorMsg = err instanceof Error ? err.message : String(err);
         console.error(`   ❌ Error embedding chunk ${i + 1}:`, errorMsg);

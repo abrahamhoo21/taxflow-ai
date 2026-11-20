@@ -1,4 +1,4 @@
-import { genAI, CHAT_MODEL, getEmbedding, RAG_SYSTEM_PROMPT } from '@/lib/gemini';
+import { genAI, CHAT_MODEL, FALLBACK_CHAT_MODEL, getEmbedding, RAG_SYSTEM_PROMPT } from '@/lib/gemini';
 import { supabaseAdmin } from '@/lib/supabase';
 import { Citation, RAGQueryResponse } from '@/types/rag';
 import { RAG_DEFAULTS } from '@/constants/crm';
@@ -61,12 +61,7 @@ export class TaxRAGService {
       )
       .join('\n\n');
 
-    // 6. Synthesize Response with Citations via Gemini Flash
-    const model = genAI.getGenerativeModel({
-      model: CHAT_MODEL,
-      systemInstruction: RAG_SYSTEM_PROMPT,
-    });
-
+    // 6. Synthesize Response with Citations via Gemini Flash (with Fallback)
     const prompt = `QUESTION:
 ${question}
 
@@ -75,8 +70,23 @@ ${contextText}
 
 Generate a concise, authoritative answer for our YYC tax consultant team. Remember to cite [Doc: ..., Page: ..., Section: ...] after every claim.`;
 
-    const result = await model.generateContent(prompt);
-    const answer = result.response.text();
+    let answer = '';
+    try {
+      const model = genAI.getGenerativeModel({
+        model: CHAT_MODEL,
+        systemInstruction: RAG_SYSTEM_PROMPT,
+      });
+      const result = await model.generateContent(prompt);
+      answer = result.response.text();
+    } catch {
+      // Fallback model if primary encounters transient load spike
+      const fallbackModel = genAI.getGenerativeModel({
+        model: FALLBACK_CHAT_MODEL,
+        systemInstruction: RAG_SYSTEM_PROMPT,
+      });
+      const result = await fallbackModel.generateContent(prompt);
+      answer = result.response.text();
+    }
 
     return {
       answer,

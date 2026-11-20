@@ -10,7 +10,7 @@ The project enforces strict **Separation of Concerns (SoC)** across 4 distinct l
 
 ```
 ┌────────────────────────────────────────────────────────────┐
-│ 1. Presentation Layer (`src/app/`, `src/components/`)       │
+│ 1. Presentation Layer (`src/app/`, `src/components/`)      │
 │    • Pure UI & Client Components.                          │
 │    • NO direct database queries or raw external API keys.  │
 │    • Only communicates with Backend via API Route Handlers.│

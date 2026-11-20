@@ -13,8 +13,9 @@ if (!apiKey && process.env.NODE_ENV !== 'production') {
 export const genAI = new GoogleGenerativeAI(apiKey);
 
 // Models
-export const CHAT_MODEL = 'gemini-1.5-flash';
-export const EMBEDDING_MODEL = 'text-embedding-004';
+export const CHAT_MODEL = 'gemini-flash-lite-latest';
+export const FALLBACK_CHAT_MODEL = 'gemini-3.1-flash-lite';
+export const EMBEDDING_MODEL = 'gemini-embedding-001';
 
 /**
  * Generate 768-dimensional float embedding vector for a given text
@@ -23,7 +24,12 @@ export async function getEmbedding(text: string): Promise<number[]> {
   try {
     const model = genAI.getGenerativeModel({ model: EMBEDDING_MODEL });
     const cleanText = text.replace(/\n+/g, ' ').trim();
-    const result = await model.embedContent(cleanText);
+    // Use outputDimensionality: 768 to match PostgreSQL vector(768)
+    const result = await model.embedContent({
+      content: { parts: [{ text: cleanText }], role: 'user' },
+      // @ts-expect-error outputDimensionality is supported in Gemini embedding API
+      outputDimensionality: 768,
+    });
     return result.embedding.values;
   } catch (error) {
     console.error('Error generating embedding with Gemini:', error);
