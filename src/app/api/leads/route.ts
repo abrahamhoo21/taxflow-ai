@@ -36,6 +36,23 @@ export async function POST(request: Request) {
   }
 }
 
+export async function PUT(request: Request) {
+  try {
+    const body = await request.json();
+    const { id, name, email, phone, company, status } = body;
+
+    if (!id) {
+      return NextResponse.json({ error: 'Missing lead id' }, { status: 400 });
+    }
+
+    const updatedLead = await CRMService.updateLead(id, { name, email, phone, company, status });
+    return NextResponse.json(updatedLead);
+  } catch (error: unknown) {
+    const errorMsg = error instanceof Error ? error.message : String(error);
+    return NextResponse.json({ error: errorMsg }, { status: 500 });
+  }
+}
+
 export async function DELETE(request: Request) {
   try {
     const { searchParams } = new URL(request.url);

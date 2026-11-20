@@ -66,6 +66,35 @@ export class CRMService {
   }
 
   /**
+   * Update an existing lead
+   */
+  static async updateLead(
+    id: string,
+    payload: Partial<{
+      name: string;
+      email: string;
+      phone: string;
+      company: string;
+      status: LeadStatus;
+    }>
+  ): Promise<Lead> {
+    const updates: Record<string, unknown> = {
+      ...payload,
+      updated_at: new Date().toISOString(),
+    };
+
+    const { data, error } = await supabaseAdmin
+      .from('leads')
+      .update(updates)
+      .eq('id', id)
+      .select()
+      .single();
+
+    if (error) throw new Error(`Failed to update lead: ${error.message}`);
+    return data;
+  }
+
+  /**
    * List all opportunities joined with contact details for Kanban display
    */
   static async getOpportunities(): Promise<Opportunity[]> {

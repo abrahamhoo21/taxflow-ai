@@ -9,13 +9,21 @@ export default function LeadsPage() {
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('All');
   
-  // Modal state
+  // Modal state - Add Lead
   const [showAddModal, setShowAddModal] = useState(false);
   const [newName, setNewName] = useState('');
   const [newCompany, setNewCompany] = useState('');
   const [newEmail, setNewEmail] = useState('');
   const [newPhone, setNewPhone] = useState('');
   const [newStatus, setNewStatus] = useState<LeadStatus>('Lead');
+
+  // Modal state - Edit Lead
+  const [editLead, setEditLead] = useState<Lead | null>(null);
+  const [editName, setEditName] = useState('');
+  const [editCompany, setEditCompany] = useState('');
+  const [editEmail, setEditEmail] = useState('');
+  const [editPhone, setEditPhone] = useState('');
+  const [editStatus, setEditStatus] = useState<LeadStatus>('Lead');
 
   const fetchLeads = async () => {
     setLoading(true);
@@ -64,6 +72,44 @@ export default function LeadsPage() {
       }
     } catch {
       alert('Failed to create lead');
+    }
+  };
+
+  const handleOpenEditModal = (lead: Lead) => {
+    setEditLead(lead);
+    setEditName(lead.name);
+    setEditCompany(lead.company);
+    setEditEmail(lead.email);
+    setEditPhone(lead.phone);
+    setEditStatus(lead.status);
+  };
+
+  const handleUpdateLead = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editLead || !editName || !editCompany || !editEmail || !editPhone) return;
+
+    try {
+      const res = await fetch('/api/leads', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id: editLead.id,
+          name: editName,
+          company: editCompany,
+          email: editEmail,
+          phone: editPhone,
+          status: editStatus,
+        }),
+      });
+
+      if (res.ok) {
+        setEditLead(null);
+        fetchLeads();
+      } else {
+        alert('Failed to update lead');
+      }
+    } catch {
+      alert('Failed to update lead');
     }
   };
 
@@ -168,7 +214,13 @@ export default function LeadsPage() {
                     <div className="text-[10px] text-slate-500 mt-0.5">{lead.phone}</div>
                   </td>
                   <td className="p-4">{getStatusBadge(lead.status)}</td>
-                  <td className="p-4 text-right">
+                  <td className="p-4 text-right space-x-3">
+                    <button
+                      onClick={() => handleOpenEditModal(lead)}
+                      className="text-blue-400 hover:text-blue-300 font-medium text-xs transition"
+                    >
+                      Edit
+                    </button>
                     <button
                       onClick={() => handleDeleteLead(lead.id)}
                       className="text-red-400 hover:text-red-300 font-medium text-xs transition"
@@ -267,6 +319,97 @@ export default function LeadsPage() {
                   className="px-5 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold transition"
                 >
                   Save Lead
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Lead Modal */}
+      {editLead && (
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="w-full max-w-md bg-[#0f172a] border border-slate-800 rounded-2xl shadow-2xl overflow-hidden p-6 space-y-4">
+            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+              <h3 className="font-bold text-sm text-slate-100">Edit Contact / Lead</h3>
+              <button onClick={() => setEditLead(null)} className="text-slate-400 hover:text-white">✕</button>
+            </div>
+
+            <form onSubmit={handleUpdateLead} className="space-y-3 text-xs">
+              <div>
+                <label className="block text-slate-400 mb-1">Full Name:</label>
+                <input
+                  type="text"
+                  required
+                  value={editName}
+                  onChange={e => setEditName(e.target.value)}
+                  placeholder="e.g. Dato Sri Jeffrey"
+                  className="w-full p-2.5 rounded-lg bg-slate-900 border border-slate-700 text-slate-100 focus:outline-none focus:border-blue-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-slate-400 mb-1">Company Name:</label>
+                <input
+                  type="text"
+                  required
+                  value={editCompany}
+                  onChange={e => setEditCompany(e.target.value)}
+                  placeholder="e.g. Mega Logistics Bhd"
+                  className="w-full p-2.5 rounded-lg bg-slate-900 border border-slate-700 text-slate-100 focus:outline-none focus:border-blue-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-slate-400 mb-1">Email Address:</label>
+                <input
+                  type="email"
+                  required
+                  value={editEmail}
+                  onChange={e => setEditEmail(e.target.value)}
+                  placeholder="e.g. jeffrey@megalogistics.com.my"
+                  className="w-full p-2.5 rounded-lg bg-slate-900 border border-slate-700 text-slate-100 focus:outline-none focus:border-blue-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-slate-400 mb-1">Phone Number (Malaysia):</label>
+                <input
+                  type="text"
+                  required
+                  value={editPhone}
+                  onChange={e => setEditPhone(e.target.value)}
+                  placeholder="e.g. 012-3456789"
+                  className="w-full p-2.5 rounded-lg bg-slate-900 border border-slate-700 text-slate-100 focus:outline-none focus:border-blue-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-slate-400 mb-1">Status:</label>
+                <select
+                  value={editStatus}
+                  onChange={e => setEditStatus(e.target.value as LeadStatus)}
+                  className="w-full p-2.5 rounded-lg bg-slate-900 border border-slate-700 text-slate-100 focus:outline-none focus:border-blue-500"
+                >
+                  <option value="Lead">Lead</option>
+                  <option value="Prospect">Prospect</option>
+                  <option value="Customer">Customer</option>
+                </select>
+              </div>
+
+              <div className="flex items-center justify-end gap-2 pt-3 border-t border-slate-800">
+                <button
+                  type="button"
+                  onClick={() => setEditLead(null)}
+                  className="px-4 py-2 rounded-lg text-slate-400 hover:text-white"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-5 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold transition"
+                >
+                  Update Lead
                 </button>
               </div>
             </form>
