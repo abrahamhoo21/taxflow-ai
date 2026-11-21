@@ -39,8 +39,8 @@ flowchart TB
     end
 
     subgraph ExternalAI["🧠 External AI Model Services (Google Gemini API)"]
-        EmbeddingModel["🔤 text-embedding-004<br/>(768-dimensional Vector Embeddings)"]
-        ChatLLM["⚡ gemini-1.5-flash<br/>(Synthesis, Citation Attribution, JSON Schema)"]
+        EmbeddingModel["🔤 gemini-embedding-001<br/>(768-dimensional Vector Embeddings)"]
+        ChatLLM["⚡ gemini-flash-lite-latest<br/>(Synthesis, Citation Attribution, JSON Schema)"]
     end
 
     %% Client to Backend
@@ -70,50 +70,50 @@ The data model cleanly separates standard CRM transactional entities (`leads`, `
 
 ```mermaid
 erDiagram
-    LEADS ||--o{ OPPORTUNITIES : "has many"
-    LEADS ||--o{ ACTIVITIES : "has logged"
-    OPPORTUNITIES ||--o{ ACTIVITIES : "associated with"
+    LEADS ||--o{ OPPORTUNITIES : "1 : N (CASCADE)"
+    LEADS ||--o{ ACTIVITIES : "1 : N (CASCADE)"
+    OPPORTUNITIES ||--o{ ACTIVITIES : "1 : N (SET NULL)"
 
     LEADS {
-        uuid id PK
-        string name
-        string email
-        string phone
-        string company
-        string status "Lead | Prospect | Customer"
-        timestamp created_at
-        timestamp updated_at
+        uuid id PK "DEFAULT uuid_generate_v4()"
+        varchar name "Full Name / Contact"
+        varchar email "Unique Business Email"
+        varchar phone "Malaysian Format (01x-xxx)"
+        varchar company "Registered Company Name"
+        varchar status "CHECK: Lead | Prospect | Customer"
+        timestamptz created_at
+        timestamptz updated_at
     }
 
     OPPORTUNITIES {
-        uuid id PK
-        uuid lead_id FK
-        string title
-        decimal value_rm "Amount in Malaysian Ringgit"
-        string stage "New | Contacted | Qualified | Proposal | Won | Lost"
-        timestamp created_at
-        timestamp updated_at
+        uuid id PK "DEFAULT uuid_generate_v4()"
+        uuid lead_id FK "REFERENCES leads(id)"
+        varchar title "Deal Name / Tax Package"
+        decimal value_rm "DECIMAL(12,2) Malaysian Ringgit"
+        varchar stage "CHECK: New|Contacted|Qualified|Proposal|Won|Lost"
+        timestamptz created_at
+        timestamptz updated_at
     }
 
     ACTIVITIES {
-        uuid id PK
-        uuid lead_id FK "nullable"
-        uuid opportunity_id FK "nullable"
-        string type "Call | Email | Meeting | Note"
-        timestamp date
-        text description
-        timestamp created_at
+        uuid id PK "DEFAULT uuid_generate_v4()"
+        uuid lead_id FK "REFERENCES leads(id) (Nullable)"
+        uuid opportunity_id FK "REFERENCES opportunities(id) (Nullable)"
+        varchar type "CHECK: Call | Email | Meeting | Note"
+        timestamptz date "Activity Occurred Timestamp"
+        text description "Meeting summary or call notes"
+        timestamptz created_at
     }
 
     TAX_DOCUMENT_CHUNKS {
-        uuid id PK
-        string doc_name "e.g. LHDN_eInvoice_Guidelines_v3.0.pdf"
-        integer page_number
-        string section_title
-        text chunk_content
-        vector embedding "vector(768)"
-        jsonb metadata
-        timestamp created_at
+        uuid id PK "DEFAULT uuid_generate_v4()"
+        varchar doc_name "Source PDF e.g. LHDN_eInvoice_v3.0.txt"
+        integer page_number "Exact Page Citation"
+        varchar section_title "Heading e.g. 1.4 Implementation Timeline"
+        text chunk_content "Grounded Statutory Text Snippet"
+        vector embedding "VECTOR(768) Google Gemini Embedding"
+        jsonb metadata "Source file, chunk index, timestamp"
+        timestamptz created_at
     }
 ```
 
