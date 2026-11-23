@@ -129,6 +129,9 @@ async function runEvaluation() {
       console.log(`❌ Result: MISS (Expected: ${test.expectedDoc}, Top retrieved: ${topHit.doc_name})`);
       resultsSummary.push({ id: test.id, hit: false, reason: 'Document mismatch' });
     }
+
+    // Gentle pacing for API calls
+    await new Promise(resolve => setTimeout(resolve, 250));
   }
 
   const hitRate = (hits / TEST_SUITE.length) * 100;
