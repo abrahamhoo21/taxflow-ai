@@ -42,6 +42,12 @@ export function TaxChatDrawer() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ question: userText }),
       });
+
+      if (!res.ok) {
+        const errJson = await res.json().catch(() => ({}));
+        throw new Error(errJson.error || `Server returned error status ${res.status}`);
+      }
+
       const data: RAGQueryResponse = await res.json();
       setMessages(prev => [
         ...prev,
@@ -51,12 +57,13 @@ export function TaxChatDrawer() {
           responseData: data,
         },
       ]);
-    } catch {
+    } catch (err: unknown) {
+      const errorMsg = err instanceof Error ? err.message : String(err);
       setMessages(prev => [
         ...prev,
         {
           role: 'assistant',
-          text: 'Sorry, I encountered an issue connecting to the tax RAG backend. Please verify your Gemini API key and Supabase database connection.',
+          text: `Query error: ${errorMsg}. Please click the sample question again to retry.`,
         },
       ]);
     } finally {
