@@ -55,10 +55,14 @@ export default function PipelineKanbanPage() {
           </p>
         </div>
         <button
-          onClick={() => alert('You can use Option B (Extract Notes AI) on the bottom-left to auto-create opportunities with AI!')}
-          className="px-3.5 py-2 rounded-lg bg-purple-600 hover:bg-purple-500 text-white font-medium text-xs transition shadow-sm"
+          onClick={() => {
+            if (typeof window !== 'undefined') {
+              window.dispatchEvent(new CustomEvent('open-notes-extractor'));
+            }
+          }}
+          className="px-3.5 py-2 rounded-lg bg-purple-600 hover:bg-purple-500 text-white font-medium text-xs transition shadow-sm flex items-center gap-1.5"
         >
-          ✨ Extract from Notes (AI)
+          <span>✨</span> Extract from Notes (AI)
         </button>
       </div>
 

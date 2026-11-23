@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ExtractedNotes } from '@/types/rag';
 
 export function NotesExtractorModal() {
@@ -11,6 +11,16 @@ export function NotesExtractorModal() {
   const [loading, setLoading] = useState(false);
   const [extracted, setExtracted] = useState<ExtractedNotes | null>(null);
   const [saveSuccess, setSaveSuccess] = useState(false);
+
+  // Listen for custom open event triggered from header buttons
+  useEffect(() => {
+    const handleCustomOpen = () => {
+      setIsOpen(true);
+      setSaveSuccess(false);
+    };
+    window.addEventListener('open-notes-extractor', handleCustomOpen);
+    return () => window.removeEventListener('open-notes-extractor', handleCustomOpen);
+  }, []);
 
   // Trigger from custom global event or click
   const handleOpen = () => {
