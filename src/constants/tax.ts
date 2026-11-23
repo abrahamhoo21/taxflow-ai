@@ -12,10 +12,10 @@ export interface SuggestedQuestion {
 export const TAX_CHAT_CONFIG = {
   TITLE: 'YYC Tax Intelligence Assistant',
   BADGE: 'RAG Active',
-  SUBTITLE: 'Grounded on 5 Official LHDN / RMCD Publications',
+  SUBTITLE: 'Grounded on 5 Official LHDN PDF Guidelines & Rulings',
   WELCOME_MESSAGE:
-    'Welcome to the YYC Tax Assistant. I can help you verify statutory Malaysian tax regulations, including LHDN e-Invoicing Guidelines (v3.0), Service Tax (SST 8%), and Withholding Tax rules.\n\nSelect a sample question below or type your inquiry to get started:',
-  INPUT_PLACEHOLDER: 'Ask about LHDN e-invoice timeline, SST 8%, self-billed rules...',
+    'Welcome to the YYC Tax Assistant. I can help you verify statutory Malaysian tax regulations grounded directly on official LHDN documents, including e-Invoicing Guidelines, Public Rulings on Small Value Assets, Resident Individual Deductions, and Double Taxation Relief.\n\nSelect a sample question below or type your inquiry to get started:',
+  INPUT_PLACEHOLDER: 'Ask about e-invoice timeline, small value assets, gift deduction limits...',
   SUGGESTED_QUESTIONS: [
     {
       id: 'e-inv-timeline',
@@ -24,34 +24,34 @@ export const TAX_CHAT_CONFIG = {
       question: 'When is Phase 1 of LHDN e-invoicing mandatory and what is the turnover threshold?',
     },
     {
-      id: 'self-billed',
-      category: 'e-Invoicing',
-      badge: 'Self-Billed e-Invoice',
-      question: 'When must a Malaysian buyer issue a self-billed e-invoice for imported services from foreign suppliers?',
-    },
-    {
       id: 'cancel-window',
       category: 'Compliance',
       badge: '72h Cancel Window',
-      question: 'What is the time window allowed for a supplier to cancel a validated e-invoice in MyInvois?',
+      question: 'What is the time window allowed for a buyer or supplier to cancel or reject an e-invoice in MyInvois?',
     },
     {
-      id: 'sst-rate',
-      category: 'SST',
-      badge: '8% Service Tax Scope',
-      question: 'What services are subject to the revised 8% Service Tax rate, and which services remain at 6%?',
+      id: 'small-value-qualify',
+      category: 'Capital Allowance',
+      badge: 'Small Value Assets',
+      question: 'What qualifies as a small value asset for special capital allowances under Public Ruling No. 4/2026?',
     },
     {
-      id: 'consolidated-b2c',
-      category: 'Retail',
-      badge: 'Consolidated B2C',
-      question: 'What is the deadline for submitting a monthly consolidated e-invoice for retail B2C transactions?',
+      id: 'small-value-cap',
+      category: 'Capital Allowance',
+      badge: 'RM20,000 Cap Rule',
+      question: 'What is the maximum total cap of special allowance for small value assets in a year of assessment?',
     },
     {
-      id: 'withholding-tax',
+      id: 'charitable-gifts',
+      category: 'Personal Tax',
+      badge: '10% Deduction Cap',
+      question: 'What is the percentage restriction or cap on tax deductions for charitable cash gifts under Section 44(6)?',
+    },
+    {
+      id: 'foreign-tax-credit',
       category: 'Cross-Border',
-      badge: 'Withholding Tax',
-      question: 'What are the withholding tax obligations and deduction percentages under Section 107A for non-resident contractors?',
+      badge: 'Bilateral / Unilateral Credit',
+      question: 'Under what statutory sections of the Income Tax Act 1967 are bilateral credit and unilateral credit claimed?',
     },
   ] as SuggestedQuestion[],
 } as const;
