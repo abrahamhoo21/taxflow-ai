@@ -4,6 +4,7 @@ dotenv.config({ path: '.env' });
 
 import * as fs from 'fs';
 import * as path from 'path';
+import pdf from 'pdf-parse';
 import { getEmbedding } from '../src/lib/gemini';
 import { supabaseAdmin } from '../src/lib/supabase';
 
@@ -101,7 +102,15 @@ async function runIngestion() {
     const filePath = path.join(KB_DIR, file);
     console.log(`⏳ Processing: ${file}...`);
     
-    const content = fs.readFileSync(filePath, 'utf-8');
+    let content = '';
+    if (file.toLowerCase().endsWith('.pdf')) {
+      const dataBuffer = fs.readFileSync(filePath);
+      const pdfData = await pdf(dataBuffer);
+      content = pdfData.text;
+    } else {
+      content = fs.readFileSync(filePath, 'utf-8');
+    }
+
     const chunks = parseAndChunkDocument(file, content);
     console.log(`   Generated ${chunks.length} semantically tagged chunks.`);
 
