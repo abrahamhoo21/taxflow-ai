@@ -1,229 +1,379 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 820" width="100%" height="100%" style="background:#0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 880" width="100%" height="100%" style="background:#090d16; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto, sans-serif;">
   <defs>
-    <!-- Gradients -->
-    <linearGradient id="gradClient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#1e293b" />
-      <stop offset="100%" stop-color="#0f172a" />
+    <!-- Background Grid Pattern -->
+    <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#131d2e" stroke-width="0.8" />
+    </pattern>
+
+    <!-- Linear Gradients -->
+    <linearGradient id="gradClient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#0b1120" />
     </linearGradient>
-    <linearGradient id="gradAPI" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#064e3b" stop-opacity="0.6" />
-      <stop offset="100%" stop-color="#0f172a" />
+    <linearGradient id="gradAPI" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#091f1a" />
+      <stop offset="100%" stop-color="#061512" />
     </linearGradient>
-    <linearGradient id="gradDB" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#78350f" stop-opacity="0.6" />
-      <stop offset="100%" stop-color="#0f172a" />
+    <linearGradient id="gradDB" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1f180a" />
+      <stop offset="100%" stop-color="#140f06" />
     </linearGradient>
-    <linearGradient id="gradAI" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#581c87" stop-opacity="0.6" />
-      <stop offset="100%" stop-color="#0f172a" />
+    <linearGradient id="gradAI" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1a1128" />
+      <stop offset="100%" stop-color="#100b1a" />
     </linearGradient>
-    
-    <!-- Filter for subtle drop shadow -->
-    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
-      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.4"/>
+
+    <!-- Soft Ambient Glow / Shadow -->
+    <filter id="softShadow" x="-10%" y="-5%" width="120%" height="110%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.6"/>
     </filter>
-    
-    <!-- Marker for arrows -->
-    <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1 L 8 5 L 0 9 z" fill="#38bdf8" />
+
+    <!-- Arrow Markers -->
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#38bdf8" />
     </marker>
-    <marker id="arrow-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1 L 8 5 L 0 9 z" fill="#34d399" />
+    <marker id="arrow-emerald" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#34d399" />
     </marker>
-    <marker id="arrow-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1 L 8 5 L 0 9 z" fill="#c084fc" />
+    <marker id="arrow-amber" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#f59e0b" />
+    </marker>
+    <marker id="arrow-purple" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#c084fc" />
     </marker>
   </defs>
 
-  <!-- Title Header -->
-  <g transform="translate(60, 40)">
-    <text x="0" y="0" fill="#f8fafc" font-size="24" font-weight="700">YYC taxPOD CRM + Tax AI Assistant</text>
-    <text x="0" y="24" fill="#94a3b8" font-size="14">System Component Architecture Diagram (3-Tier Cloud Architecture)</text>
-    <rect x="940" y="-18" width="140" height="30" rx="15" fill="#1e293b" stroke="#334155" stroke-width="1"/>
-    <text x="960" y="2" fill="#38bdf8" font-size="12" font-weight="600">Full-Stack TS</text>
+  <!-- Background Grid -->
+  <rect width="100%" height="100%" fill="url(#grid)" />
+
+  <!-- ================= TOP HEADER ================= -->
+  <g transform="translate(50, 42)">
+    <circle cx="6" cy="6" r="6" fill="#38bdf8" />
+    <text x="24" y="11" fill="#f8fafc" font-size="20" font-weight="700" letter-spacing="-0.02em">YYC taxPOD CRM &amp; Tax RAG Assistant</text>
+    <text x="24" y="32" fill="#64748b" font-size="12" font-weight="500">System Component Architecture Diagram • 4-Tier Clean Architecture</text>
+
+    <!-- Stack Pill Badges -->
+    <g transform="translate(730, -5)">
+      <rect x="0" y="0" width="105" height="26" rx="6" fill="#0f172a" stroke="#1e293b" />
+      <text x="12" y="17" fill="#94a3b8" font-size="11" font-weight="600">Next.js 14 App</text>
+
+      <rect x="115" y="0" width="95" height="26" rx="6" fill="#0f172a" stroke="#1e293b" />
+      <text x="127" y="17" fill="#94a3b8" font-size="11" font-weight="600">TypeScript</text>
+
+      <rect x="220" y="0" width="135" height="26" rx="6" fill="#0f172a" stroke="#1e293b" />
+      <text x="232" y="17" fill="#34d399" font-size="11" font-weight="600">Supabase pgvector</text>
+
+      <rect x="365" y="0" width="115" height="26" rx="6" fill="#0f172a" stroke="#1e293b" />
+      <text x="377" y="17" fill="#c084fc" font-size="11" font-weight="600">Google Gemini</text>
+    </g>
   </g>
 
-  <!-- ================= TIER 1: CLIENT PRESENTATION ================= -->
-  <g transform="translate(60, 100)">
-    <!-- Container Box -->
-    <rect width="320" height="660" rx="16" fill="url(#gradClient)" stroke="#38bdf8" stroke-width="1.5" filter="url(#shadow)"/>
-    <rect x="0" y="0" width="320" height="48" rx="16" fill="#1e293b" />
-    <path d="M 0 32 L 0 48 L 320 48 L 320 32 Z" fill="#1e293b"/>
-    <circle cx="24" cy="24" r="6" fill="#ef4444"/>
-    <circle cx="42" cy="24" r="6" fill="#eab308"/>
-    <circle cx="60" cy="24" r="6" fill="#22c55e"/>
-    <text x="80" y="29" fill="#f8fafc" font-size="14" font-weight="700">Frontend Presentation Tier</text>
-    <text x="24" y="70" fill="#38bdf8" font-size="12" font-weight="600">Next.js 14 App Router + Tailwind + shadcn/ui</text>
+  <!-- ================= COLUMN 1: PRESENTATION TIER ================= -->
+  <g transform="translate(50, 100)">
+    <!-- Container -->
+    <rect width="280" height="740" rx="14" fill="url(#gradClient)" stroke="#1e293b" stroke-width="1.2" filter="url(#softShadow)" />
+    
+    <!-- Tier Header -->
+    <rect width="280" height="52" rx="14" fill="#0f172a" stroke="#1e293b" stroke-width="1.2" />
+    <path d="M 0 30 L 0 52 L 280 52 L 280 30 Z" fill="#0f172a" />
+    <rect x="16" y="18" width="6" height="16" rx="3" fill="#38bdf8" />
+    <text x="30" y="31" fill="#f1f5f9" font-size="13" font-weight="700">1. Presentation Layer</text>
+    <text x="30" y="45" fill="#38bdf8" font-size="10" font-weight="600">Next.js 14 Client Components</text>
 
     <!-- Component 1: Dashboard -->
-    <g transform="translate(20, 90)">
-      <rect width="280" height="95" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1"/>
-      <text x="16" y="28" fill="#38bdf8" font-size="14" font-weight="700">📊 Dashboard Screen</text>
-      <text x="16" y="50" fill="#cbd5e1" font-size="11">• Total Contacts (Leads/Customers)</text>
-      <text x="16" y="68" fill="#cbd5e1" font-size="11">• Open Opportunities &amp; Pipeline Value (RM)</text>
-      <text x="16" y="86" fill="#94a3b8" font-size="10">Component: <tspan fill="#38bdf8">page.tsx / DashboardKPI.tsx</tspan></text>
+    <g transform="translate(16, 68)">
+      <rect width="248" height="100" rx="10" fill="#131d2e" stroke="#1e2e46" stroke-width="1" />
+      <text x="14" y="24" fill="#38bdf8" font-size="12" font-weight="700">Analytics Dashboard</text>
+      <text x="14" y="44" fill="#94a3b8" font-size="11">• 4x Sales KPI Cards (Pipeline RM)</text>
+      <text x="14" y="62" fill="#94a3b8" font-size="11">• Real-time Activity Audit Feed</text>
+      <text x="14" y="82" fill="#475569" font-size="10" font-family="monospace">src/app/page.tsx</text>
     </g>
 
-    <!-- Component 2: Leads Management -->
-    <g transform="translate(20, 200)">
-      <rect width="280" height="95" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1"/>
-      <text x="16" y="28" fill="#34d399" font-size="14" font-weight="700">👤 Leads &amp; Contacts</text>
-      <text x="16" y="50" fill="#cbd5e1" font-size="11">• Search &amp; Filter by Status (Lead/Prospect/Cust)</text>
-      <text x="16" y="68" fill="#cbd5e1" font-size="11">• Create, Edit, Delete Modal Forms</text>
-      <text x="16" y="86" fill="#94a3b8" font-size="10">Component: <tspan fill="#34d399">LeadsTable.tsx / LeadModal.tsx</tspan></text>
+    <!-- Component 2: Leads -->
+    <g transform="translate(16, 180)">
+      <rect width="248" height="110" rx="10" fill="#131d2e" stroke="#1e2e46" stroke-width="1" />
+      <text x="14" y="24" fill="#38bdf8" font-size="12" font-weight="700">Leads &amp; Contacts Management</text>
+      <text x="14" y="44" fill="#94a3b8" font-size="11">• Client Search &amp; Status Filtering</text>
+      <text x="14" y="62" fill="#94a3b8" font-size="11">• Create, Edit &amp; Delete Modals</text>
+      <text x="14" y="80" fill="#94a3b8" font-size="11">• Malaysian Phone/Email Validation</text>
+      <text x="14" y="96" fill="#475569" font-size="10" font-family="monospace">src/app/leads/page.tsx</text>
     </g>
 
-    <!-- Component 3: Kanban Pipeline -->
-    <g transform="translate(20, 310)">
-      <rect width="280" height="105" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1"/>
-      <text x="16" y="28" fill="#fbbf24" font-size="14" font-weight="700">📋 Kanban Opportunity Board</text>
-      <text x="16" y="50" fill="#cbd5e1" font-size="11">• Stages: New ➔ Contacted ➔ Qualified ➔</text>
-      <text x="16" y="68" fill="#cbd5e1" font-size="11">  Proposal ➔ Won / Lost (Deal Value in RM)</text>
-      <text x="16" y="86" fill="#cbd5e1" font-size="11">• Drag-and-Drop (@hello-pangea/dnd)</text>
-      <text x="16" y="102" fill="#94a3b8" font-size="10">Component: <tspan fill="#fbbf24">KanbanBoard.tsx</tspan></text>
+    <!-- Component 3: Pipeline Kanban -->
+    <g transform="translate(16, 302)">
+      <rect width="248" height="120" rx="10" fill="#131d2e" stroke="#1e2e46" stroke-width="1" />
+      <text x="14" y="24" fill="#38bdf8" font-size="12" font-weight="700">Opportunities Kanban Board</text>
+      <text x="14" y="44" fill="#94a3b8" font-size="11">• 5 Sales Stages (New ➔ Won)</text>
+      <text x="14" y="62" fill="#94a3b8" font-size="11">• Ringgit Valuation (formatRM)</text>
+      <text x="14" y="80" fill="#94a3b8" font-size="11">• Stage Drag &amp; Drop Transitions</text>
+      <text x="14" y="104" fill="#475569" font-size="10" font-family="monospace">src/app/pipeline/page.tsx</text>
     </g>
 
-    <!-- Component 4: Tax RAG Assistant -->
-    <g transform="translate(20, 430)">
-      <rect width="280" height="105" rx="10" fill="#1e293b" stroke="#c084fc" stroke-width="1.2"/>
-      <text x="16" y="28" fill="#c084fc" font-size="14" font-weight="700">🤖 Tax RAG Assistant (Mandatory)</text>
-      <text x="16" y="50" fill="#cbd5e1" font-size="11">• Malaysian Tax Q&amp;A Chat Drawer</text>
-      <text x="16" y="68" fill="#cbd5e1" font-size="11">• Citations: [Doc Name, Page #, Section]</text>
-      <text x="16" y="86" fill="#cbd5e1" font-size="11">• Hallucination Guardrail Message Badge</text>
-      <text x="16" y="102" fill="#94a3b8" font-size="10">Component: <tspan fill="#c084fc">TaxChatDrawer.tsx</tspan></text>
+    <!-- Component 4: Tax Q&A Assistant -->
+    <g transform="translate(16, 434)">
+      <rect width="248" height="135" rx="10" fill="#131d2e" stroke="#3b82f6" stroke-width="1.2" />
+      <text x="14" y="24" fill="#60a5fa" font-size="12" font-weight="700">Tax RAG Assistant (Mandatory)</text>
+      <text x="14" y="44" fill="#94a3b8" font-size="11">• Slide-over Drawer Chat UI</text>
+      <text x="14" y="62" fill="#94a3b8" font-size="11">• Verified Citations Cards</text>
+      <text x="14" y="80" fill="#94a3b8" font-size="11">• Hallucination Guardrail Alert</text>
+      <text x="14" y="98" fill="#94a3b8" font-size="11">• 5x Ingested Tax Documents</text>
+      <text x="14" y="120" fill="#475569" font-size="10" font-family="monospace">components/rag/TaxChatDrawer.tsx</text>
     </g>
 
-    <!-- Component 5: Meeting Notes Extractor (Option B) -->
-    <g transform="translate(20, 550)">
-      <rect width="280" height="95" rx="10" fill="#1e293b" stroke="#f472b6" stroke-width="1.2"/>
-      <text x="16" y="28" fill="#f472b6" font-size="14" font-weight="700">📝 Meeting Notes (Option B)</text>
-      <text x="16" y="50" fill="#cbd5e1" font-size="11">• Paste raw notes ➔ AI auto-extraction</text>
-      <text x="16" y="68" fill="#cbd5e1" font-size="11">• Human-in-the-Loop Review &amp; Save Modal</text>
-      <text x="16" y="86" fill="#94a3b8" font-size="10">Component: <tspan fill="#f472b6">NotesExtractorModal.tsx</tspan></text>
-    </g>
-  </g>
-
-  <!-- ================= TIER 2: BACKEND & API TIER ================= -->
-  <g transform="translate(430, 100)">
-    <rect width="320" height="660" rx="16" fill="url(#gradAPI)" stroke="#34d399" stroke-width="1.5" filter="url(#shadow)"/>
-    <rect x="0" y="0" width="320" height="48" rx="16" fill="#064e3b" />
-    <path d="M 0 32 L 0 48 L 320 48 L 320 32 Z" fill="#064e3b"/>
-    <text x="24" y="29" fill="#f8fafc" font-size="14" font-weight="700">Backend &amp; API Service Tier</text>
-    <text x="24" y="70" fill="#34d399" font-size="12" font-weight="600">Next.js Server Actions &amp; Route Handlers (TS)</text>
-
-    <!-- Service 1: CRM API -->
-    <g transform="translate(20, 95)">
-      <rect width="280" height="120" rx="10" fill="#062e24" stroke="#059669" stroke-width="1"/>
-      <text x="16" y="28" fill="#34d399" font-size="13" font-weight="700">🔌 CRM Controller Services</text>
-      <text x="16" y="52" fill="#a7f3d0" font-size="11">/api/leads: CRUD on contact info</text>
-      <text x="16" y="72" fill="#a7f3d0" font-size="11">/api/opportunities: Stage transitions &amp; RM</text>
-      <text x="16" y="92" fill="#a7f3d0" font-size="11">/api/activities: Call/Email/Meeting audit log</text>
-      <text x="16" y="110" fill="#6ee7b7" font-size="10">Data Validation: <tspan fill="#fff">Zod Schema Enforcement</tspan></text>
-    </g>
-
-    <!-- Service 2: RAG Pipeline Service -->
-    <g transform="translate(20, 240)">
-      <rect width="280" height="175" rx="10" fill="#062e24" stroke="#059669" stroke-width="1.2"/>
-      <text x="16" y="28" fill="#38bdf8" font-size="13" font-weight="700">🔍 RAG Query &amp; Ingestion Engine</text>
-      <text x="16" y="52" fill="#bae6fd" font-size="11">• PDF Parsing (pdf-parse)</text>
-      <text x="16" y="72" fill="#bae6fd" font-size="11">• Recursive Chunking (~800 tokens, 150 ovl)</text>
-      <text x="16" y="92" fill="#bae6fd" font-size="11">• Embedding Caller: text-embedding-004</text>
-      <text x="16" y="112" fill="#bae6fd" font-size="11">• Vector Search: Top-K Cosine Similarity RPC</text>
-      <text x="16" y="132" fill="#bae6fd" font-size="11">• Citation Assembler (Doc Name + Page #)</text>
-      <text x="16" y="152" fill="#38bdf8" font-size="11">• Hallucination Guardrail Check</text>
-      <text x="16" y="168" fill="#94a3b8" font-size="10">Endpoint: <tspan fill="#38bdf8">/api/rag/query &amp; /api/rag/ingest</tspan></text>
-    </g>
-
-    <!-- Service 3: Meeting Extractor Service -->
-    <g transform="translate(20, 440)">
-      <rect width="280" height="100" rx="10" fill="#062e24" stroke="#f472b6" stroke-width="1"/>
-      <text x="16" y="28" fill="#f472b6" font-size="13" font-weight="700">🧩 Notes Extractor Service</text>
-      <text x="16" y="52" fill="#fbcfe8" font-size="11">• Zero-shot extraction via Gemini Flash</text>
-      <text x="16" y="72" fill="#fbcfe8" font-size="11">• Enforce JSON Schema (Zod parser)</text>
-      <text x="16" y="92" fill="#94a3b8" font-size="10">Endpoint: <tspan fill="#f472b6">/api/ai/extract-notes</tspan></text>
-    </g>
-
-    <!-- Ingestion Batch CLI -->
-    <g transform="translate(20, 560)">
-      <rect width="280" height="85" rx="10" fill="#0f172a" stroke="#475569" stroke-width="1"/>
-      <text x="16" y="26" fill="#fbbf24" font-size="12" font-weight="700">📦 One-Click Ingestion CLI</text>
-      <text x="16" y="46" fill="#cbd5e1" font-size="11">Command: <tspan font-family="monospace" fill="#fbbf24">npm run ingest</tspan></text>
-      <text x="16" y="66" fill="#94a3b8" font-size="10">Auto-embeds 5 Tax PDFs into Supabase pgvector</text>
+    <!-- Component 5: Meeting Notes Extractor -->
+    <g transform="translate(16, 581)">
+      <rect width="248" height="135" rx="10" fill="#131d2e" stroke="#a855f7" stroke-width="1.2" />
+      <text x="14" y="24" fill="#c084fc" font-size="12" font-weight="700">Notes Extractor (Option B)</text>
+      <text x="14" y="44" fill="#94a3b8" font-size="11">• Unstructured Text Input Area</text>
+      <text x="14" y="62" fill="#94a3b8" font-size="11">• Human-in-the-Loop Review UI</text>
+      <text x="14" y="80" fill="#94a3b8" font-size="11">• Editable Lead / Opportunity Preview</text>
+      <text x="14" y="98" fill="#94a3b8" font-size="11">• One-Click Direct CRM Persistence</text>
+      <text x="14" y="120" fill="#475569" font-size="10" font-family="monospace">components/ai/NotesExtractorModal.tsx</text>
     </g>
   </g>
 
-  <!-- ================= TIER 3: DATA & AI TIER ================= -->
-  <g transform="translate(800, 100)">
-    
-    <!-- 3A: Supabase Database Box -->
-    <g transform="translate(0, 0)">
-      <rect width="340" height="315" rx="16" fill="url(#gradDB)" stroke="#f59e0b" stroke-width="1.5" filter="url(#shadow)"/>
-      <rect x="0" y="0" width="340" height="48" rx="16" fill="#78350f" />
-      <path d="M 0 32 L 0 48 L 340 48 L 340 32 Z" fill="#78350f"/>
-      <text x="24" y="29" fill="#f8fafc" font-size="14" font-weight="700">🐘 Supabase (PostgreSQL + pgvector)</text>
-      <text x="24" y="70" fill="#fbbf24" font-size="12" font-weight="600">Unified Relational &amp; Vector Database</text>
+  <!-- ================= COLUMN 2: API & APPLICATION TIER ================= -->
+  <g transform="translate(365, 100)">
+    <!-- Container -->
+    <rect width="280" height="740" rx="14" fill="url(#gradAPI)" stroke="#064e3b" stroke-width="1.2" filter="url(#softShadow)" />
 
-      <g transform="translate(20, 90)">
-        <rect width="300" height="42" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
-        <text x="12" y="26" fill="#f8fafc" font-size="12" font-weight="600">Table: <tspan fill="#34d399">leads</tspan> <tspan fill="#94a3b8" font-weight="normal">(id, name, email, phone, company, status)</tspan></text>
-      </g>
-      <g transform="translate(20, 140)">
-        <rect width="300" height="42" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
-        <text x="12" y="26" fill="#f8fafc" font-size="12" font-weight="600">Table: <tspan fill="#fbbf24">opportunities</tspan> <tspan fill="#94a3b8" font-weight="normal">(id, lead_id, title, value_rm, stage)</tspan></text>
-      </g>
-      <g transform="translate(20, 190)">
-        <rect width="300" height="42" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
-        <text x="12" y="26" fill="#f8fafc" font-size="12" font-weight="600">Table: <tspan fill="#38bdf8">activities</tspan> <tspan fill="#94a3b8" font-weight="normal">(id, lead_id, opp_id, type, description, date)</tspan></text>
-      </g>
-      <g transform="translate(20, 240)">
-        <rect width="300" height="60" rx="8" fill="#1e293b" stroke="#c084fc" stroke-width="1.2"/>
-        <text x="12" y="24" fill="#c084fc" font-size="12" font-weight="700">Table: tax_document_chunks (pgvector)</text>
-        <text x="12" y="44" fill="#cbd5e1" font-size="11">embedding: <tspan fill="#a855f7">vector(768)</tspan> with HNSW Cosine Index</text>
-      </g>
+    <!-- Tier Header -->
+    <rect width="280" height="52" rx="14" fill="#062e24" stroke="#064e3b" stroke-width="1.2" />
+    <path d="M 0 30 L 0 52 L 280 52 L 280 30 Z" fill="#062e24" />
+    <rect x="16" y="18" width="6" height="16" rx="3" fill="#34d399" />
+    <text x="30" y="31" fill="#f1f5f9" font-size="13" font-weight="700">2. API &amp; Service Layer</text>
+    <text x="30" y="45" fill="#34d399" font-size="10" font-weight="600">Next.js Server Route Handlers</text>
+
+    <!-- Block 1: HTTP Controllers & Zod -->
+    <g transform="translate(16, 68)">
+      <rect width="248" height="150" rx="10" fill="#042018" stroke="#059669" stroke-width="1" />
+      <text x="14" y="24" fill="#34d399" font-size="12" font-weight="700">Thin API Controllers</text>
+      <text x="14" y="46" fill="#a7f3d0" font-size="11">• POST/GET/PUT/DELETE /api/leads</text>
+      <text x="14" y="66" fill="#a7f3d0" font-size="11">• POST/GET/PATCH /api/opportunities</text>
+      <text x="14" y="86" fill="#a7f3d0" font-size="11">• POST /api/rag/query</text>
+      <text x="14" y="106" fill="#a7f3d0" font-size="11">• POST /api/ai/extract-notes</text>
+      
+      <rect x="14" y="120" width="220" height="20" rx="4" fill="#064e3b" />
+      <text x="22" y="134" fill="#6ee7b7" font-size="10" font-weight="600">Payload Guard: Zod Schemas + Error Codes</text>
     </g>
 
-    <!-- 3B: External Google Gemini AI Box -->
-    <g transform="translate(0, 345)">
-      <rect width="340" height="315" rx="16" fill="url(#gradAI)" stroke="#c084fc" stroke-width="1.5" filter="url(#shadow)"/>
-      <rect x="0" y="0" width="340" height="48" rx="16" fill="#581c87" />
-      <path d="M 0 32 L 0 48 L 340 48 L 340 32 Z" fill="#581c87"/>
-      <text x="24" y="29" fill="#f8fafc" font-size="14" font-weight="700">🧠 Google Gemini AI Cloud Service</text>
-      <text x="24" y="70" fill="#c084fc" font-size="12" font-weight="600">Official Google Generative AI API</text>
-
-      <!-- Gemini Flash Model -->
-      <g transform="translate(20, 90)">
-        <rect width="300" height="95" rx="10" fill="#2e1065" stroke="#7e22ce" stroke-width="1"/>
-        <text x="14" y="28" fill="#c084fc" font-size="13" font-weight="700">⚡ gemini-1.5-flash</text>
-        <text x="14" y="50" fill="#e9d5ff" font-size="11">• Real-time RAG Context Synthesis</text>
-        <text x="14" y="68" fill="#e9d5ff" font-size="11">• Strict citation tagging &amp; zero hallucination</text>
-        <text x="14" y="86" fill="#e9d5ff" font-size="11">• Fast JSON structured extraction</text>
-      </g>
-
-      <!-- Embedding Model -->
-      <g transform="translate(20, 200)">
-        <rect width="300" height="95" rx="10" fill="#2e1065" stroke="#7e22ce" stroke-width="1"/>
-        <text x="14" y="28" fill="#a855f7" font-size="13" font-weight="700">🔤 text-embedding-004</text>
-        <text x="14" y="50" fill="#e9d5ff" font-size="11">• 768-dimensional dense semantic vectors</text>
-        <text x="14" y="68" fill="#e9d5ff" font-size="11">• Document chunk embedding at ingestion</text>
-        <text x="14" y="86" fill="#e9d5ff" font-size="11">• Query embedding at search runtime</text>
-      </g>
+    <!-- Block 2: CRM Domain Service -->
+    <g transform="translate(16, 230)">
+      <rect width="248" height="110" rx="10" fill="#042018" stroke="#059669" stroke-width="1" />
+      <text x="14" y="24" fill="#34d399" font-size="12" font-weight="700">CRM Domain Service</text>
+      <text x="14" y="46" fill="#cbd5e1" font-size="11">• Leads &amp; Opps Business Logic</text>
+      <text x="14" y="66" fill="#cbd5e1" font-size="11">• Cascade Deletion &amp; Audit Logger</text>
+      <text x="14" y="86" fill="#cbd5e1" font-size="11">• Pipeline Aggregation &amp; Metrics</text>
+      <text x="14" y="100" fill="#475569" font-size="10" font-family="monospace">src/services/crm.service.ts</text>
     </g>
 
+    <!-- Block 3: Tax RAG Domain Service -->
+    <g transform="translate(16, 352)">
+      <rect width="248" height="190" rx="10" fill="#042018" stroke="#10b981" stroke-width="1.2" />
+      <text x="14" y="24" fill="#34d399" font-size="12" font-weight="700">Tax RAG Domain Service</text>
+      <text x="14" y="44" fill="#cbd5e1" font-size="11">• Query Vector Generation (768-dim)</text>
+      <text x="14" y="62" fill="#cbd5e1" font-size="11">• Supabase Cosine RPC Matcher</text>
+      <text x="14" y="80" fill="#cbd5e1" font-size="11">• Context Assembler &amp; Page Tagger</text>
+      
+      <!-- Guardrail pill -->
+      <rect x="14" y="94" width="220" height="42" rx="6" fill="#451a03" stroke="#b45309" stroke-width="1" />
+      <text x="22" y="110" fill="#fde68a" font-size="10" font-weight="700">Hallucination Guardrail Engine</text>
+      <text x="22" y="126" fill="#fbbf24" font-size="10">Similarity &lt; 0.50 Threshold ➔ Short-circuit Refusal</text>
+
+      <text x="14" y="152" fill="#cbd5e1" font-size="11">• Citations: [Doc, Page, Section]</text>
+      <text x="14" y="174" fill="#475569" font-size="10" font-family="monospace">src/services/rag.service.ts</text>
+    </g>
+
+    <!-- Block 4: Notes Extractor Domain Service -->
+    <g transform="translate(16, 554)">
+      <rect width="248" height="165" rx="10" fill="#042018" stroke="#059669" stroke-width="1" />
+      <text x="14" y="24" fill="#34d399" font-size="12" font-weight="700">Notes Extractor Service</text>
+      <text x="14" y="44" fill="#cbd5e1" font-size="11">• Zero-shot Extraction via Gemini Flash</text>
+      <text x="14" y="62" fill="#cbd5e1" font-size="11">• Strict JSON Structured Outputs</text>
+      <text x="14" y="80" fill="#cbd5e1" font-size="11">• Entity Normalization (RM Currency)</text>
+      <text x="14" y="98" fill="#cbd5e1" font-size="11">• Contact Phone &amp; Company Parser</text>
+      <text x="14" y="116" fill="#cbd5e1" font-size="11">• Prepares HITL Review Draft</text>
+      <text x="14" y="145" fill="#475569" font-size="10" font-family="monospace">src/services/notes.service.ts</text>
+    </g>
   </g>
 
-  <!-- ================= ARROW CONNECTORS ================= -->
-  <!-- Frontend to Backend -->
-  <path d="M 380 200 L 430 200" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrow)" />
-  <path d="M 380 370 L 430 370" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrow)" />
-  <path d="M 380 500 L 430 390" stroke="#c084fc" stroke-width="2" marker-end="url(#arrow-purple)" />
-  <path d="M 380 610 L 430 500" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrow)" />
+  <!-- ================= COLUMN 3: PERSISTENCE & VECTOR STORAGE ================= -->
+  <g transform="translate(680, 100)">
+    <!-- Container -->
+    <rect width="260" height="740" rx="14" fill="url(#gradDB)" stroke="#78350f" stroke-width="1.2" filter="url(#softShadow)" />
 
-  <!-- Backend to DB -->
-  <path d="M 750 200 L 800 200" stroke="#34d399" stroke-width="2" marker-end="url(#arrow-green)" />
-  <path d="M 750 370 L 800 370" stroke="#34d399" stroke-width="2" marker-end="url(#arrow-green)" />
+    <!-- Tier Header -->
+    <rect width="260" height="52" rx="14" fill="#3e1d05" stroke="#78350f" stroke-width="1.2" />
+    <path d="M 0 30 L 0 52 L 260 52 L 260 30 Z" fill="#3e1d05" />
+    <rect x="16" y="18" width="6" height="16" rx="3" fill="#f59e0b" />
+    <text x="30" y="31" fill="#f1f5f9" font-size="13" font-weight="700">3. Persistence &amp; Vector</text>
+    <text x="30" y="45" fill="#fbbf24" font-size="10" font-weight="600">Supabase (PostgreSQL 15)</text>
 
-  <!-- Backend to External AI -->
-  <path d="M 750 340 L 775 340 L 775 480 L 800 480" stroke="#c084fc" stroke-width="2" marker-end="url(#arrow-purple)" stroke-dasharray="4,4" />
-  <path d="M 750 510 L 800 510" stroke="#c084fc" stroke-width="2" marker-end="url(#arrow-purple)" stroke-dasharray="4,4" />
+    <!-- Sub-block A: Relational Database -->
+    <g transform="translate(14, 68)">
+      <rect width="232" height="280" rx="10" fill="#1b1305" stroke="#b45309" stroke-width="1" />
+      <text x="14" y="24" fill="#fbbf24" font-size="12" font-weight="700">Relational CRM Engine</text>
+
+      <!-- Table 1 -->
+      <g transform="translate(10, 36)">
+        <rect width="212" height="65" rx="6" fill="#2d1c07" stroke="#78350f" stroke-width="0.8" />
+        <text x="10" y="18" fill="#fef3c7" font-size="11" font-weight="700">TABLE leads</text>
+        <text x="10" y="34" fill="#d97706" font-size="9" font-family="monospace">PK id (UUID)</text>
+        <text x="10" y="48" fill="#94a3b8" font-size="9">• name, email, phone, company, status</text>
+      </g>
+
+      <!-- Table 2 -->
+      <g transform="translate(10, 110)">
+        <rect width="212" height="75" rx="6" fill="#2d1c07" stroke="#78350f" stroke-width="0.8" />
+        <text x="10" y="18" fill="#fef3c7" font-size="11" font-weight="700">TABLE opportunities</text>
+        <text x="10" y="34" fill="#d97706" font-size="9" font-family="monospace">PK id (UUID) | FK lead_id (CASCADE)</text>
+        <text x="10" y="48" fill="#94a3b8" font-size="9">• title, value_rm (DECIMAL), stage</text>
+        <text x="10" y="62" fill="#38bdf8" font-size="9">• New / Contacted / Qualified / Proposal / Won</text>
+      </g>
+
+      <!-- Table 3 -->
+      <g transform="translate(10, 195)">
+        <rect width="212" height="70" rx="6" fill="#2d1c07" stroke="#78350f" stroke-width="0.8" />
+        <text x="10" y="18" fill="#fef3c7" font-size="11" font-weight="700">TABLE activities</text>
+        <text x="10" y="34" fill="#d97706" font-size="9" font-family="monospace">PK id (UUID) | FK lead_id, FK opp_id</text>
+        <text x="10" y="48" fill="#94a3b8" font-size="9">• type (Call/Meeting/Email/Note), desc, date</text>
+      </g>
+    </g>
+
+    <!-- Sub-block B: pgvector Vector Engine -->
+    <g transform="translate(14, 362)">
+      <rect width="232" height="355" rx="10" fill="#1b1305" stroke="#f59e0b" stroke-width="1.2" />
+      <text x="14" y="24" fill="#fbbf24" font-size="12" font-weight="700">pgvector Storage &amp; RPC</text>
+
+      <!-- Vector Table -->
+      <g transform="translate(10, 36)">
+        <rect width="212" height="150" rx="6" fill="#2d1c07" stroke="#b45309" stroke-width="0.8" />
+        <text x="10" y="18" fill="#fef3c7" font-size="11" font-weight="700">TABLE tax_document_chunks</text>
+        <text x="10" y="34" fill="#d97706" font-size="9" font-family="monospace">PK id (UUID)</text>
+        <text x="10" y="50" fill="#94a3b8" font-size="9">• doc_name (VARCHAR)</text>
+        <text x="10" y="66" fill="#94a3b8" font-size="9">• page_number (INT)</text>
+        <text x="10" y="82" fill="#94a3b8" font-size="9">• section_title (VARCHAR)</text>
+        <text x="10" y="98" fill="#94a3b8" font-size="9">• chunk_content (TEXT)</text>
+        
+        <rect x="10" y="112" width="192" height="26" rx="4" fill="#451a03" />
+        <text x="16" y="129" fill="#fde68a" font-size="9" font-weight="700" font-family="monospace">embedding: VECTOR(768)</text>
+      </g>
+
+      <!-- HNSW Index Card -->
+      <g transform="translate(10, 196)">
+        <rect width="212" height="50" rx="6" fill="#1e1403" stroke="#78350f" stroke-width="0.8" />
+        <text x="10" y="18" fill="#fef3c7" font-size="10" font-weight="700">HNSW Cosine Index</text>
+        <text x="10" y="34" fill="#cbd5e1" font-size="9">vector_cosine_ops (m=16, ef_construction=64)</text>
+      </g>
+
+      <!-- Stored Procedure Card -->
+      <g transform="translate(10, 256)">
+        <rect width="212" height="85" rx="6" fill="#2d1c07" stroke="#f59e0b" stroke-width="1" />
+        <text x="10" y="18" fill="#fbbf24" font-size="10" font-weight="700">RPC: match_tax_chunks()</text>
+        <text x="10" y="34" fill="#94a3b8" font-size="9">• Calculates: 1 - (embedding &lt;=&gt; query)</text>
+        <text x="10" y="50" fill="#94a3b8" font-size="9">• Filter: similarity &gt; match_threshold</text>
+        <text x="10" y="66" fill="#94a3b8" font-size="9">• Returns Top-K (default 4) Chunks</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- ================= COLUMN 4: AI FOUNDATION LAYER ================= -->
+  <g transform="translate(970, 100)">
+    <!-- Container -->
+    <rect width="260" height="740" rx="14" fill="url(#gradAI)" stroke="#581c87" stroke-width="1.2" filter="url(#softShadow)" />
+
+    <!-- Tier Header -->
+    <rect width="260" height="52" rx="14" fill="#2e1065" stroke="#581c87" stroke-width="1.2" />
+    <path d="M 0 30 L 0 52 L 260 52 L 260 30 Z" fill="#2e1065" />
+    <rect x="16" y="18" width="6" height="16" rx="3" fill="#c084fc" />
+    <text x="30" y="31" fill="#f1f5f9" font-size="13" font-weight="700">4. AI Foundation Layer</text>
+    <text x="30" y="45" fill="#c084fc" font-size="10" font-weight="600">Google Gemini Cloud API</text>
+
+    <!-- Model 1: Embedding -->
+    <g transform="translate(14, 68)">
+      <rect width="232" height="180" rx="10" fill="#1f0e38" stroke="#7e22ce" stroke-width="1" />
+      <text x="14" y="24" fill="#c084fc" font-size="12" font-weight="700">Vector Embeddings</text>
+      
+      <rect x="14" y="36" width="204" height="26" rx="4" fill="#3b0764" />
+      <text x="22" y="53" fill="#f3e8ff" font-size="11" font-weight="600" font-family="monospace">gemini-embedding-001</text>
+
+      <text x="14" y="82" fill="#cbd5e1" font-size="10">• Output Dimensionality: 768-dim</text>
+      <text x="14" y="100" fill="#cbd5e1" font-size="10">• Ingestion: Embedded 34 tax chunks</text>
+      <text x="14" y="118" fill="#cbd5e1" font-size="10">• Search Runtime: Real-time query vector</text>
+      <text x="14" y="136" fill="#cbd5e1" font-size="10">• Strict Malaysian tax semantic space</text>
+      <text x="14" y="162" fill="#a855f7" font-size="9" font-weight="600">Aligned with Postgres vector(768)</text>
+    </g>
+
+    <!-- Model 2: Reasoning & Generation -->
+    <g transform="translate(14, 260)">
+      <rect width="232" height="220" rx="10" fill="#1f0e38" stroke="#a855f7" stroke-width="1.2" />
+      <text x="14" y="24" fill="#c084fc" font-size="12" font-weight="700">Synthesis &amp; Extraction</text>
+
+      <rect x="14" y="36" width="204" height="26" rx="4" fill="#3b0764" />
+      <text x="22" y="53" fill="#f3e8ff" font-size="11" font-weight="600" font-family="monospace">gemini-flash-lite-latest</text>
+
+      <text x="14" y="82" fill="#cbd5e1" font-size="10">• Primary generation engine</text>
+      <text x="14" y="100" fill="#cbd5e1" font-size="10">• Grounded RAG synthesis with</text>
+      <text x="14" y="116" fill="#cbd5e1" font-size="10">  mandatory inline citations</text>
+      <text x="14" y="134" fill="#cbd5e1" font-size="10">• Structured JSON schema outputs</text>
+      <text x="14" y="152" fill="#cbd5e1" font-size="10">• Zero speculation on statutory law</text>
+      <text x="14" y="170" fill="#cbd5e1" font-size="10">• Low-latency &amp; cost-efficient</text>
+      
+      <rect x="14" y="185" width="204" height="22" rx="4" fill="#2e1065" />
+      <text x="20" y="200" fill="#e9d5ff" font-size="9">Evaluated on 10 Official Benchmarks</text>
+    </g>
+
+    <!-- Model 3: High-Availability Fallback -->
+    <g transform="translate(14, 492)">
+      <rect width="232" height="110" rx="10" fill="#1f0e38" stroke="#7e22ce" stroke-width="1" />
+      <text x="14" y="24" fill="#c084fc" font-size="12" font-weight="700">High-Availability Fallback</text>
+
+      <rect x="14" y="36" width="204" height="26" rx="4" fill="#3b0764" />
+      <text x="22" y="53" fill="#f3e8ff" font-size="11" font-weight="600" font-family="monospace">gemini-3.1-flash-lite</text>
+
+      <text x="14" y="80" fill="#cbd5e1" font-size="10">• Automatic failover during transient</text>
+      <text x="14" y="96" fill="#cbd5e1" font-size="10">  load spikes or API rate limits</text>
+    </g>
+
+    <!-- Batch Ingestion Tool -->
+    <g transform="translate(14, 614)">
+      <rect width="232" height="105" rx="10" fill="#0c1220" stroke="#334155" stroke-width="1" />
+      <text x="14" y="24" fill="#f8fafc" font-size="11" font-weight="700">One-Click Ingestion CLI</text>
+      <text x="14" y="44" fill="#94a3b8" font-size="10">Command:</text>
+      
+      <rect x="14" y="52" width="204" height="24" rx="4" fill="#1e293b" />
+      <text x="22" y="68" fill="#34d399" font-size="10" font-family="monospace">npm run ingest</text>
+      
+      <text x="14" y="94" fill="#64748b" font-size="9">Ingests 5 official tax PDFs into Supabase</text>
+    </g>
+  </g>
+
+  <!-- ================= ARROW CONNECTORS WITH PROTOCOL TAGS ================= -->
+  <!-- Col 1 to Col 2 -->
+  <path d="M 330 200 L 365 200" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#arrow-blue)" />
+  <path d="M 330 350 L 365 350" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#arrow-blue)" />
+  <path d="M 330 500 L 365 440" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#arrow-blue)" />
+  <path d="M 330 650 L 365 630" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#arrow-blue)" />
+
+  <!-- Protocol Badge between Col 1 & 2 -->
+  <rect x="330" y="250" width="30" height="18" rx="4" fill="#0f172a" stroke="#1e293b" />
+  <text x="334" y="263" fill="#38bdf8" font-size="8" font-weight="600">REST</text>
+
+  <!-- Col 2 to Col 3 (Relational) -->
+  <path d="M 645 285 L 680 210" stroke="#34d399" stroke-width="1.8" marker-end="url(#arrow-emerald)" />
+  <!-- Col 2 to Col 3 (Vector RPC) -->
+  <path d="M 645 440 L 680 500" stroke="#f59e0b" stroke-width="1.8" marker-end="url(#arrow-amber)" />
+
+  <!-- Protocol Badge between Col 2 & 3 -->
+  <rect x="645" y="340" width="32" height="18" rx="4" fill="#0f172a" stroke="#1e293b" />
+  <text x="648" y="353" fill="#34d399" font-size="8" font-weight="600">Postgres</text>
+
+  <!-- Col 2 to Col 4 (AI API) -->
+  <path d="M 645 400 C 660 400, 660 760, 800 760 C 900 760, 930 400, 970 200" stroke="#c084fc" stroke-width="1.8" stroke-dasharray="4,4" marker-end="url(#arrow-purple)" fill="none" />
+  <path d="M 645 460 C 660 460, 660 790, 800 790 C 900 790, 940 450, 970 370" stroke="#c084fc" stroke-width="1.8" stroke-dasharray="4,4" marker-end="url(#arrow-purple)" fill="none" />
+
+  <!-- Protocol Badge for AI Call -->
+  <rect x="940" y="270" width="28" height="18" rx="4" fill="#0f172a" stroke="#1e293b" />
+  <text x="944" y="283" fill="#c084fc" font-size="8" font-weight="600">gRPC</text>
 
 </svg>

@@ -8,58 +8,75 @@
 
 ## 1. System Component Diagram
 
-The system adopts a modular, 3-tier cloud-ready architecture comprising a presentation client, an orchestration API layer, a dual relational/vector storage engine, and an external AI inference engine.
+The system adopts a modular, 4-tier clean cloud architecture comprising a presentation client, a typed API and application service layer, a unified relational and high-dimensional vector storage engine, and an external AI foundation layer.
 
 ```mermaid
 flowchart TB
-    subgraph Client["🖥️ Frontend Presentation Tier (Next.js 14 App Router)"]
-        Dashboard["📊 Analytics Dashboard<br/>(KPI Cards, Pipeline Value RM, Feed)"]
-        LeadsUI["👤 Leads Management<br/>(Search, Filter, CRUD Modals)"]
-        KanbanUI["📋 Opportunities Pipeline<br/>(Stage Drag-and-Drop Kanban in RM)"]
-        RAGDrawer["🤖 Tax Q&A Assistant<br/>(Real-time Chat with Page Citations)"]
-        NotesModal["📝 Meeting Notes Extractor<br/>(Option B: HITL Review & Confirm)"]
+    classDef client fill:#0f172a,stroke:#3b82f6,stroke-width:1.5px,color:#f8fafc;
+    classDef api fill:#0f172a,stroke:#10b981,stroke-width:1.5px,color:#f8fafc;
+    classDef db fill:#0f172a,stroke:#f59e0b,stroke-width:1.5px,color:#f8fafc;
+    classDef ai fill:#0f172a,stroke:#8b5cf6,stroke-width:1.5px,color:#f8fafc;
+
+    subgraph Tier1["1. Presentation Layer (Next.js 14 App Router)"]
+        Dashboard["Analytics Dashboard<br/><code>page.tsx</code>"]:::client
+        LeadsUI["Leads Management<br/><code>leads/page.tsx</code>"]:::client
+        KanbanUI["Opportunities Pipeline<br/><code>pipeline/page.tsx</code>"]:::client
+        RAGDrawer["Tax Q&A Assistant Drawer<br/><code>TaxChatDrawer.tsx</code>"]:::client
+        NotesModal["Meeting Notes Extractor<br/><code>NotesExtractorModal.tsx</code>"]:::client
     end
 
-    subgraph Backend["⚡ API & Orchestration Tier (Next.js Server Actions & Route Handlers)"]
-        CRMController["🔌 CRM Business Logic Service<br/>(Leads / Deals State Transitions)"]
-        RAGService["🔍 RAG Retrieval & Context Assembler<br/>(Cosine Top-K + Metadata Filters)"]
-        GuardService["🛡️ Hallucination & Prompt Guardrail<br/>(Grounding Enforcement)"]
-        ExtractorService["🧩 Structured Notes Extractor<br/>(Zod Schema & JSON Mode)"]
+    subgraph Tier2["2. API & Orchestration Layer (Server Route Handlers)"]
+        LeadsAPI["Leads Controller<br/><code>/api/leads</code>"]:::api
+        OppsAPI["Opportunities Controller<br/><code>/api/opportunities</code>"]:::api
+        RAGController["Tax RAG Controller<br/><code>/api/rag/query</code>"]:::api
+        NotesAPI["Notes Extractor Controller<br/><code>/api/ai/extract-notes</code>"]:::api
+
+        CRMService["CRM Domain Service<br/><code>crm.service.ts</code>"]:::api
+        RAGService["Tax RAG Service & Guardrail<br/><code>rag.service.ts</code>"]:::api
+        NotesService["Notes Extractor Service<br/><code>notes.service.ts</code>"]:::api
     end
 
-    subgraph DataTier["🐘 Data & Vector Storage Tier (Supabase / PostgreSQL)"]
-        subgraph Relational["Relational Tables"]
-            T_Leads[("leads")]
-            T_Opps[("opportunities")]
-            T_Acts[("activities")]
+    subgraph Tier3["3. Persistence & Vector Layer (Supabase / PostgreSQL)"]
+        subgraph RelationalStore["Relational Store"]
+            T_Leads[("leads")]:::db
+            T_Opps[("opportunities")]:::db
+            T_Acts[("activities")]:::db
         end
-        subgraph VectorDB["Vector Store (pgvector)"]
-            T_Chunks[("tax_document_chunks<br/>(vector 768, HNSW Index)")]
+        subgraph VectorStore["Vector Store (pgvector)"]
+            T_Chunks[("tax_document_chunks<br/>vector(768) + HNSW Index")]:::db
+            RPC_Match["match_tax_chunks()<br/>Cosine Similarity RPC"]:::db
         end
     end
 
-    subgraph ExternalAI["🧠 External AI Model Services (Google Gemini API)"]
-        EmbeddingModel["🔤 gemini-embedding-001<br/>(768-dimensional Vector Embeddings)"]
-        ChatLLM["⚡ gemini-flash-lite-latest<br/>(Synthesis, Citation Attribution, JSON Schema)"]
+    subgraph Tier4["4. AI Foundation Layer (Google Gemini API)"]
+        EmbedAPI["gemini-embedding-001<br/>768-dim Vector Embeddings"]:::ai
+        ChatAPI["gemini-flash-lite-latest<br/>RAG Synthesis & Structured Extraction"]:::ai
     end
 
-    %% Client to Backend
-    Dashboard --> CRMController
-    LeadsUI --> CRMController
-    KanbanUI --> CRMController
-    RAGDrawer --> RAGService
-    NotesModal --> ExtractorService
+    %% Presentation to API Controllers
+    Dashboard --> LeadsAPI
+    Dashboard --> OppsAPI
+    LeadsUI --> LeadsAPI
+    KanbanUI --> OppsAPI
+    RAGDrawer --> RAGController
+    NotesModal --> NotesAPI
 
-    %% Backend to Database
-    CRMController --> Relational
-    ExtractorService -.->|Save confirmed contacts & activities| Relational
-    RAGService -->|Vector similarity search RPC| VectorDB
+    %% Controllers to Domain Services
+    LeadsAPI --> CRMService
+    OppsAPI --> CRMService
+    RAGController --> RAGService
+    NotesAPI --> NotesService
 
-    %% Backend to External AI
-    RAGService -->|1. Generate query embedding| EmbeddingModel
-    RAGService -->|2. Synthesize context with citations| ChatLLM
-    GuardService --- RAGService
-    ExtractorService -->|Zero-shot structured extraction| ChatLLM
+    %% Services to Data Layer
+    CRMService --> RelationalStore
+    NotesService --> CRMService
+    RAGService --> RPC_Match
+    RPC_Match --> T_Chunks
+
+    %% Services to Foundation AI
+    RAGService -->|1. Generate Query Vector| EmbedAPI
+    RAGService -->|2. Synthesize Grounded Answer| ChatAPI
+    NotesService -->|Zero-shot JSON Schema Extraction| ChatAPI
 ```
 
 ---
