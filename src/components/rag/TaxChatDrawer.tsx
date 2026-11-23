@@ -2,24 +2,36 @@
 
 import React, { useState } from 'react';
 import { RAGQueryResponse } from '@/types/rag';
-import { Bot, FileCheck2, AlertTriangle, X, Send, ShieldCheck, Loader2 } from 'lucide-react';
+import {
+  Bot,
+  FileCheck2,
+  AlertTriangle,
+  X,
+  Send,
+  ShieldCheck,
+  Loader2,
+  Sparkles,
+  RotateCcw,
+} from 'lucide-react';
+import { TAX_CHAT_CONFIG } from '@/constants/tax';
 
 export function TaxChatDrawer() {
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
-  const [messages, setMessages] = useState<Array<{ role: 'user' | 'assistant'; text: string; responseData?: RAGQueryResponse }>>([
+  const [messages, setMessages] = useState<
+    Array<{ role: 'user' | 'assistant'; text: string; responseData?: RAGQueryResponse }>
+  >([
     {
       role: 'assistant',
-      text: 'Hello Abraham! I am your YYC Tax AI Assistant. You can ask me any question about Malaysian e-Invoicing (LHDN v3.0), Service Tax (SST 8%), Sales Tax (LVG), or Withholding Tax.',
+      text: TAX_CHAT_CONFIG.WELCOME_MESSAGE,
     },
   ]);
 
-  const handleSend = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!query.trim() || loading) return;
+  const executeQuestion = async (text: string) => {
+    if (!text.trim() || loading) return;
 
-    const userText = query.trim();
+    const userText = text.trim();
     setQuery('');
     setMessages(prev => [...prev, { role: 'user', text: userText }]);
     setLoading(true);
@@ -44,12 +56,22 @@ export function TaxChatDrawer() {
         ...prev,
         {
           role: 'assistant',
-          text: 'Sorry, I encountered an issue connecting to the tax RAG backend. Please check your Gemini API key and database setup.',
+          text: 'Sorry, I encountered an issue connecting to the tax RAG backend. Please verify your Gemini API key and Supabase database connection.',
         },
       ]);
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleSend = async (e: React.FormEvent) => {
+    e.preventDefault();
+    await executeQuestion(query);
+  };
+
+  const handleReset = () => {
+    setMessages([{ role: 'assistant', text: TAX_CHAT_CONFIG.WELCOME_MESSAGE }]);
+    setQuery('');
   };
 
   return (
@@ -74,7 +96,7 @@ export function TaxChatDrawer() {
 
       {/* Slide-over Drawer Panel */}
       <div
-        className={`fixed inset-y-0 right-0 w-full sm:w-[480px] bg-[#0c1220] border-l border-slate-800 shadow-2xl flex flex-col z-50 transform transition-transform duration-300 ease-in-out ${
+        className={`fixed inset-y-0 right-0 w-full sm:w-[500px] bg-[#0c1220] border-l border-slate-800 shadow-2xl flex flex-col z-50 transform transition-transform duration-300 ease-in-out ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
@@ -86,21 +108,34 @@ export function TaxChatDrawer() {
             </div>
             <div>
               <div className="font-semibold text-sm text-slate-100 flex items-center gap-1.5">
-                <span>YYC Tax Assistant</span>
-                <span className="text-[11px] px-2 py-0.5 rounded-full bg-blue-900/50 text-blue-300 border border-blue-700/50 font-medium">RAG Active</span>
+                <span>{TAX_CHAT_CONFIG.TITLE}</span>
+                <span className="text-[11px] px-2 py-0.5 rounded-full bg-blue-900/50 text-blue-300 border border-blue-700/50 font-medium">
+                  {TAX_CHAT_CONFIG.BADGE}
+                </span>
               </div>
               <div className="text-xs text-emerald-400 flex items-center gap-1 mt-0.5">
                 <ShieldCheck className="w-3.5 h-3.5" />
-                <span>Grounded on 5 Official LHDN / RMCD PDFs</span>
+                <span>{TAX_CHAT_CONFIG.SUBTITLE}</span>
               </div>
             </div>
           </div>
-          <button
-            onClick={() => setIsOpen(false)}
-            className="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center transition"
-          >
-            <X className="w-4 h-4" />
-          </button>
+          <div className="flex items-center gap-1">
+            <button
+              type="button"
+              onClick={handleReset}
+              title="Reset conversation"
+              className="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center transition"
+            >
+              <RotateCcw className="w-3.5 h-3.5" />
+            </button>
+            <button
+              type="button"
+              onClick={() => setIsOpen(false)}
+              className="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center transition"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
         </div>
 
         {/* Chat Messages Body */}
@@ -111,7 +146,7 @@ export function TaxChatDrawer() {
               className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}
             >
               <div
-                className={`max-w-[90%] rounded-2xl p-4 space-y-2.5 leading-relaxed shadow-sm ${
+                className={`max-w-[92%] rounded-2xl p-4 space-y-2.5 leading-relaxed shadow-sm ${
                   m.role === 'user'
                     ? 'bg-blue-600 text-white rounded-tr-sm'
                     : 'bg-[#0f172a] border border-slate-800 text-slate-200 rounded-tl-sm'
@@ -153,6 +188,34 @@ export function TaxChatDrawer() {
             </div>
           ))}
 
+          {/* Suggested Questions Guidance (Prompt Starters) */}
+          {messages.length === 1 && (
+            <div className="pt-2 pb-1 space-y-2.5">
+              <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-400 px-1">
+                <Sparkles className="w-3.5 h-3.5 text-blue-400" />
+                <span>Suggested Questions (Click to Ask):</span>
+              </div>
+              <div className="grid grid-cols-1 gap-2">
+                {TAX_CHAT_CONFIG.SUGGESTED_QUESTIONS.map(q => (
+                  <button
+                    key={q.id}
+                    type="button"
+                    onClick={() => executeQuestion(q.question)}
+                    disabled={loading}
+                    className="text-left p-3 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-slate-800/80 hover:border-blue-500/50 transition group flex items-start gap-2.5 shadow-sm"
+                  >
+                    <span className="mt-0.5 px-2 py-0.5 rounded text-[10px] font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20 whitespace-nowrap">
+                      {q.badge}
+                    </span>
+                    <span className="text-xs text-slate-300 group-hover:text-white leading-relaxed">
+                      {q.question}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
           {loading && (
             <div className="flex justify-start">
               <div className="p-3.5 rounded-2xl bg-slate-900 border border-slate-800 text-sm text-slate-400 flex items-center gap-2.5">
@@ -170,7 +233,7 @@ export function TaxChatDrawer() {
               type="text"
               value={query}
               onChange={e => setQuery(e.target.value)}
-              placeholder="Ask about LHDN e-invoice deadline, SST 8%, LVG..."
+              placeholder={TAX_CHAT_CONFIG.INPUT_PLACEHOLDER}
               className="w-full bg-transparent border-0 text-sm text-slate-100 placeholder-slate-500 focus:outline-none"
             />
             <button
