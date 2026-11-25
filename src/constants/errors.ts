@@ -29,6 +29,11 @@ export const ERROR_CODES = {
   // AI & RAG
   RAG_MISSING_QUESTION: 'RAG_MISSING_QUESTION',
   RAG_QUERY_FAILED: 'RAG_QUERY_FAILED',
+  RAG_UPLOAD_NO_FILE: 'RAG_UPLOAD_NO_FILE',
+  RAG_UPLOAD_INVALID_FILE_TYPE: 'RAG_UPLOAD_INVALID_FILE_TYPE',
+  RAG_UPLOAD_FAILED: 'RAG_UPLOAD_FAILED',
+  RAG_MISSING_DOC_NAME: 'RAG_MISSING_DOC_NAME',
+  RAG_DELETE_DOC_FAILED: 'RAG_DELETE_DOC_FAILED',
   NOTES_MISSING_RAW_TEXT: 'NOTES_MISSING_RAW_TEXT',
   NOTES_EXTRACTION_FAILED: 'NOTES_EXTRACTION_FAILED',
 } as const;
@@ -58,6 +63,11 @@ export const ERROR_MESSAGES: Record<ErrorCode, string> = {
   // AI & RAG
   [ERROR_CODES.RAG_MISSING_QUESTION]: 'Question text is mandatory for tax law retrieval.',
   [ERROR_CODES.RAG_QUERY_FAILED]: 'Failed to execute tax RAG retrieval.',
+  [ERROR_CODES.RAG_UPLOAD_NO_FILE]: 'No PDF document was attached in the upload payload.',
+  [ERROR_CODES.RAG_UPLOAD_INVALID_FILE_TYPE]: 'Invalid file type. Only statutory PDF documents (.pdf) are permitted.',
+  [ERROR_CODES.RAG_UPLOAD_FAILED]: 'Failed to parse and ingest PDF document into vector database.',
+  [ERROR_CODES.RAG_MISSING_DOC_NAME]: 'Document name (doc_name) is required to perform deletion.',
+  [ERROR_CODES.RAG_DELETE_DOC_FAILED]: 'Failed to remove document chunks from vector database.',
   [ERROR_CODES.NOTES_MISSING_RAW_TEXT]: 'Meeting notes text (rawText) is required for extraction.',
   [ERROR_CODES.NOTES_EXTRACTION_FAILED]: 'Failed to extract structured data from meeting notes.',
 };
