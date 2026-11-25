@@ -61,9 +61,9 @@ export default function PipelineKanbanPage() {
               window.dispatchEvent(new CustomEvent('open-notes-extractor'));
             }
           }}
-          className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-100 border border-slate-700 font-medium text-sm transition shadow-sm flex items-center gap-2"
+          className="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-medium text-sm transition shadow-sm flex items-center gap-2"
         >
-          <FileText className="w-4 h-4 text-emerald-400" />
+          <FileText className="w-4 h-4" />
           <span>Parse Meeting Notes</span>
         </button>
       </div>

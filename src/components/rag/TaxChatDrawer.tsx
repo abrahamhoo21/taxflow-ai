@@ -89,13 +89,11 @@ export function TaxChatDrawer() {
       {/* Floating Toggle Button (Bottom-Right) */}
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 z-40 flex items-center gap-2.5 px-4 py-2.5 rounded-full bg-[#111827] hover:bg-slate-800 text-slate-100 font-medium text-sm shadow-xl border border-slate-700/80 transition"
+        className="fixed bottom-6 right-6 z-40 flex items-center gap-2.5 px-4 py-3 rounded-full bg-blue-600 hover:bg-blue-500 text-white font-medium text-sm shadow-xl shadow-blue-500/25 border border-blue-400/30 transition transform hover:scale-105"
       >
-        <div className="w-6 h-6 rounded-lg bg-blue-600/20 text-blue-400 flex items-center justify-center border border-blue-500/30">
-          <Scale className="w-3.5 h-3.5 text-blue-400" />
-        </div>
-        <span>Tax Intelligence</span>
-        <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+        <Scale className="w-4 h-4 text-blue-100" />
+        <span>Ask Tax AI (RAG)</span>
+        <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
       </button>
 
       {/* Slide-over Drawer Backdrop */}
