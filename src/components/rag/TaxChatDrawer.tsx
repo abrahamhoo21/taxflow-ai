@@ -3,17 +3,17 @@
 import React, { useState } from 'react';
 import { RAGQueryResponse } from '@/types/rag';
 import {
-  Bot,
   FileCheck2,
   AlertTriangle,
   X,
   Send,
   ShieldCheck,
   Loader2,
-  Sparkles,
   RotateCcw,
   ExternalLink,
   FileText,
+  Scale,
+  HelpCircle,
 } from 'lucide-react';
 import { TAX_CHAT_CONFIG } from '@/constants/tax';
 
@@ -89,11 +89,13 @@ export function TaxChatDrawer() {
       {/* Floating Toggle Button (Bottom-Right) */}
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 z-40 flex items-center gap-2.5 px-4 py-3 rounded-full bg-blue-600 hover:bg-blue-500 text-white font-medium text-sm shadow-xl shadow-blue-500/25 border border-blue-400/30 transition transform hover:scale-105"
+        className="fixed bottom-6 right-6 z-40 flex items-center gap-2.5 px-4 py-2.5 rounded-full bg-[#111827] hover:bg-slate-800 text-slate-100 font-medium text-sm shadow-xl border border-slate-700/80 transition"
       >
-        <Bot className="w-4 h-4 text-blue-100" />
-        <span>Ask Tax AI (RAG)</span>
-        <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        <div className="w-6 h-6 rounded-lg bg-blue-600/20 text-blue-400 flex items-center justify-center border border-blue-500/30">
+          <Scale className="w-3.5 h-3.5 text-blue-400" />
+        </div>
+        <span>Tax Intelligence</span>
+        <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
       </button>
 
       {/* Slide-over Drawer Backdrop */}
@@ -106,26 +108,26 @@ export function TaxChatDrawer() {
 
       {/* Slide-over Drawer Panel */}
       <div
-        className={`fixed inset-y-0 right-0 w-full sm:w-[500px] bg-[#0c1220] border-l border-slate-800 shadow-2xl flex flex-col z-50 transform transition-transform duration-300 ease-in-out ${
+        className={`fixed inset-y-0 right-0 w-full sm:w-[500px] bg-[#0e1424] border-l border-slate-800 shadow-2xl flex flex-col z-50 transform transition-transform duration-300 ease-in-out ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
         {/* Drawer Header */}
-        <div className="p-4 border-b border-slate-800 flex items-center justify-between bg-[#0f172a]">
+        <div className="p-4 border-b border-slate-800 flex items-center justify-between bg-[#111827]">
           <div className="flex items-center gap-3">
             <div className="p-2 rounded-lg bg-blue-600/20 text-blue-400 border border-blue-500/30">
-              <Bot className="w-5 h-5 text-blue-400" />
+              <Scale className="w-5 h-5 text-blue-400" />
             </div>
             <div>
               <div className="font-semibold text-sm text-slate-100 flex items-center gap-1.5">
                 <span>{TAX_CHAT_CONFIG.TITLE}</span>
-                <span className="text-[11px] px-2 py-0.5 rounded-full bg-blue-900/50 text-blue-300 border border-blue-700/50 font-medium">
-                  {TAX_CHAT_CONFIG.BADGE}
+                <span className="text-[11px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700 font-medium">
+                  Statutory Tax RAG
                 </span>
               </div>
               <div className="text-xs text-emerald-400 flex items-center gap-1 mt-0.5">
                 <ShieldCheck className="w-3.5 h-3.5" />
-                <span>{TAX_CHAT_CONFIG.SUBTITLE}</span>
+                <span>Grounded on LHDN Statutory Guidelines &amp; Public Rulings</span>
               </div>
             </div>
           </div>
@@ -240,8 +242,8 @@ export function TaxChatDrawer() {
           {messages.length === 1 && (
             <div className="pt-2 pb-1 space-y-2.5">
               <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-400 px-1">
-                <Sparkles className="w-3.5 h-3.5 text-blue-400" />
-                <span>Suggested Questions (Click to Ask):</span>
+                <HelpCircle className="w-3.5 h-3.5 text-slate-400" />
+                <span>Reference Tax Inquiries (Click to Query):</span>
               </div>
               <div className="grid grid-cols-1 gap-2">
                 {TAX_CHAT_CONFIG.SUGGESTED_QUESTIONS.map(q => (
@@ -250,9 +252,9 @@ export function TaxChatDrawer() {
                     type="button"
                     onClick={() => executeQuestion(q.question)}
                     disabled={loading}
-                    className="text-left p-3 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-slate-800/80 hover:border-blue-500/50 transition group flex items-start gap-2.5 shadow-sm"
+                    className="text-left p-3 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-slate-800 hover:border-slate-700 transition group flex items-start gap-2.5 shadow-sm"
                   >
-                    <span className="mt-0.5 px-2 py-0.5 rounded text-[10px] font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20 whitespace-nowrap">
+                    <span className="mt-0.5 px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-800 text-slate-300 border border-slate-700 whitespace-nowrap">
                       {q.badge}
                     </span>
                     <span className="text-xs text-slate-300 group-hover:text-white leading-relaxed">

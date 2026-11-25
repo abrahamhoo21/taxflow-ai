@@ -168,11 +168,11 @@ export default function KnowledgeBasePage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-slate-100 flex items-center gap-2.5">
-            <BookOpen className="w-6 h-6 text-purple-400" />
+            <BookOpen className="w-6 h-6 text-blue-400" />
             <span>Tax Knowledge Base Management</span>
           </h1>
           <p className="text-sm text-slate-400 mt-1">
-            Manage statutory Malaysian tax documents and guidelines powering the RAG AI Assistant.
+            Manage statutory Malaysian tax documents and guidelines powering the RAG Advisory Assistant.
           </p>
         </div>
 
@@ -188,8 +188,8 @@ export default function KnowledgeBasePage() {
 
       {/* Metrics Row */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="p-5 rounded-2xl bg-[#0f172a] border border-slate-800 shadow-sm flex items-center gap-4">
-          <div className="p-3 rounded-xl bg-purple-600/10 text-purple-400 border border-purple-500/20">
+        <div className="p-5 rounded-2xl bg-[#0e1424] border border-slate-800 shadow-sm flex items-center gap-4">
+          <div className="p-3 rounded-xl bg-blue-600/10 text-blue-400 border border-blue-500/20">
             <FileText className="w-6 h-6" />
           </div>
           <div>
@@ -198,7 +198,7 @@ export default function KnowledgeBasePage() {
           </div>
         </div>
 
-        <div className="p-5 rounded-2xl bg-[#0f172a] border border-slate-800 shadow-sm flex items-center gap-4">
+        <div className="p-5 rounded-2xl bg-[#0e1424] border border-slate-800 shadow-sm flex items-center gap-4">
           <div className="p-3 rounded-xl bg-blue-600/10 text-blue-400 border border-blue-500/20">
             <Layers className="w-6 h-6" />
           </div>
@@ -208,7 +208,7 @@ export default function KnowledgeBasePage() {
           </div>
         </div>
 
-        <div className="p-5 rounded-2xl bg-[#0f172a] border border-slate-800 shadow-sm flex items-center gap-4">
+        <div className="p-5 rounded-2xl bg-[#0e1424] border border-slate-800 shadow-sm flex items-center gap-4">
           <div className="p-3 rounded-xl bg-emerald-600/10 text-emerald-400 border border-emerald-500/20">
             <Database className="w-6 h-6" />
           </div>
@@ -218,7 +218,7 @@ export default function KnowledgeBasePage() {
           </div>
         </div>
 
-        <div className="p-5 rounded-2xl bg-[#0f172a] border border-slate-800 shadow-sm flex items-center gap-4">
+        <div className="p-5 rounded-2xl bg-[#0e1424] border border-slate-800 shadow-sm flex items-center gap-4">
           <div className="p-3 rounded-xl bg-amber-600/10 text-amber-400 border border-amber-500/20">
             <ShieldCheck className="w-6 h-6" />
           </div>
@@ -245,7 +245,7 @@ export default function KnowledgeBasePage() {
       )}
 
       {/* Upload Zone (For Non-Technical Users) */}
-      <div className="p-6 rounded-2xl bg-[#0f172a] border border-slate-800 space-y-4">
+      <div className="p-6 rounded-2xl bg-[#0e1424] border border-slate-800 space-y-4">
         <div className="flex items-center justify-between">
           <div>
             <h2 className="text-base font-bold text-slate-100 flex items-center gap-2">
@@ -376,7 +376,7 @@ export default function KnowledgeBasePage() {
       </div>
 
       {/* Active Indexed Documents Table */}
-      <div className="p-6 rounded-2xl bg-[#0f172a] border border-slate-800 space-y-4">
+      <div className="p-6 rounded-2xl bg-[#0e1424] border border-slate-800 space-y-4">
         <div className="flex items-center justify-between">
           <div>
             <h2 className="text-base font-bold text-slate-100 flex items-center gap-2">

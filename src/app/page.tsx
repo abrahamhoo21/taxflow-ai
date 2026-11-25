@@ -12,7 +12,7 @@ import {
   FileText, 
   ArrowRight,
   Database,
-  Bot
+  Scale
 } from 'lucide-react';
 import { Opportunity, Activity } from '@/types/crm';
 
@@ -105,7 +105,7 @@ export default function DashboardPage() {
 
       {/* KPI Metrics Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-        <div className="p-6 rounded-2xl bg-[#0f172a] border border-slate-800 shadow-sm hover:border-slate-700 transition">
+        <div className="p-6 rounded-2xl bg-[#0e1424] border border-slate-800 shadow-sm hover:border-slate-700 transition">
           <div className="flex items-center justify-between">
             <span className="text-sm font-medium text-slate-400">Total Contacts</span>
             <div className="p-2.5 rounded-xl bg-blue-500/10 text-blue-400">
@@ -119,7 +119,7 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        <div className="p-6 rounded-2xl bg-[#0f172a] border border-slate-800 shadow-sm hover:border-slate-700 transition">
+        <div className="p-6 rounded-2xl bg-[#0e1424] border border-slate-800 shadow-sm hover:border-slate-700 transition">
           <div className="flex items-center justify-between">
             <span className="text-sm font-medium text-slate-400">Open Opportunities</span>
             <div className="p-2.5 rounded-xl bg-amber-500/10 text-amber-400">
@@ -130,10 +130,10 @@ export default function DashboardPage() {
           <div className="text-xs text-slate-400 mt-2">In active negotiations</div>
         </div>
 
-        <div className="p-6 rounded-2xl bg-[#0f172a] border border-slate-800 shadow-sm hover:border-slate-700 transition">
+        <div className="p-6 rounded-2xl bg-[#0e1424] border border-slate-800 shadow-sm hover:border-slate-700 transition">
           <div className="flex items-center justify-between">
             <span className="text-sm font-medium text-slate-400">Total Pipeline Value</span>
-            <div className="p-2.5 rounded-xl bg-purple-500/10 text-purple-400">
+            <div className="p-2.5 rounded-xl bg-blue-500/10 text-blue-400">
               <TrendingUp className="w-5 h-5" />
             </div>
           </div>
@@ -143,7 +143,7 @@ export default function DashboardPage() {
           <div className="text-xs text-amber-400/80 mt-2 font-medium">Across 5 pipeline stages</div>
         </div>
 
-        <div className="p-6 rounded-2xl bg-[#0f172a] border border-slate-800 shadow-sm hover:border-slate-700 transition">
+        <div className="p-6 rounded-2xl bg-[#0e1424] border border-slate-800 shadow-sm hover:border-slate-700 transition">
           <div className="flex items-center justify-between">
             <span className="text-sm font-medium text-slate-400">Deals Won (Revenue)</span>
             <div className="p-2.5 rounded-xl bg-emerald-500/10 text-emerald-400">
@@ -161,7 +161,7 @@ export default function DashboardPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
         {/* Activity Timeline */}
-        <div className="lg:col-span-2 p-6 rounded-2xl bg-[#0f172a] border border-slate-800">
+        <div className="lg:col-span-2 p-6 rounded-2xl bg-[#0e1424] border border-slate-800">
           <div className="flex items-center justify-between mb-5">
             <div>
               <h2 className="font-bold text-base text-slate-100">Recent Activity Feed</h2>
@@ -198,7 +198,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Knowledge Base Status Card */}
-        <div className="p-6 rounded-2xl bg-[#0f172a] border border-slate-800 flex flex-col justify-between">
+        <div className="p-6 rounded-2xl bg-[#0e1424] border border-slate-800 flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between mb-3">
               <h2 className="font-bold text-base text-slate-100">Malaysian Tax RAG Status</h2>
@@ -213,7 +213,7 @@ export default function DashboardPage() {
 
             <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 mb-4 space-y-3">
               <div className="text-sm font-semibold text-emerald-400 flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
                 <span>{documents.length || 5} Official Documents Ingested</span>
               </div>
               <ul className="text-xs text-slate-300 space-y-2 leading-relaxed">
@@ -245,7 +245,7 @@ export default function DashboardPage() {
                 <span>Vector: <strong className="text-slate-200 font-mono">pgvector ({documents.reduce((acc, d) => acc + d.chunks_count, 0) || 385} chunks)</strong></span>
               </div>
               <div className="flex items-center gap-2">
-                <Bot className="w-3.5 h-3.5 text-purple-400" />
+                <Scale className="w-3.5 h-3.5 text-slate-400" />
                 <span>Model: <strong className="text-slate-200 font-mono">gemini-embedding-001 (768d)</strong></span>
               </div>
             </div>

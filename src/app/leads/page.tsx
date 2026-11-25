@@ -155,7 +155,7 @@ export default function LeadsPage() {
       </div>
 
       {/* Search and Filters */}
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-[#0f172a] p-4 rounded-2xl border border-slate-800">
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-[#0e1424] p-4 rounded-2xl border border-slate-800">
         <div className="flex items-center gap-3 flex-1 w-full max-w-md bg-slate-900/80 border border-slate-700/80 focus-within:border-blue-500 rounded-xl px-3.5 py-2 transition">
           <Search className="w-4 h-4 text-slate-400 flex-shrink-0" />
           <input
@@ -183,7 +183,7 @@ export default function LeadsPage() {
       </div>
 
       {/* Leads Table */}
-      <div className="rounded-2xl border border-slate-800 overflow-hidden bg-[#0f172a] shadow-sm">
+      <div className="rounded-2xl border border-slate-800 overflow-hidden bg-[#0e1424] shadow-sm">
         <table className="w-full text-left">
           <thead className="bg-slate-900/60 border-b border-slate-800 text-slate-400 uppercase text-xs tracking-wider font-semibold">
             <tr>

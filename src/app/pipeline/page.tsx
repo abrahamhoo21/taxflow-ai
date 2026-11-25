@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { Sparkles, Building2 } from 'lucide-react';
+import { FileText, Building2 } from 'lucide-react';
 import { Opportunity, OpportunityStage } from '@/types/crm';
 
 const STAGES: OpportunityStage[] = ['New', 'Contacted', 'Qualified', 'Proposal', 'Won'];
@@ -61,10 +61,10 @@ export default function PipelineKanbanPage() {
               window.dispatchEvent(new CustomEvent('open-notes-extractor'));
             }
           }}
-          className="px-4 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-medium text-sm transition shadow-sm flex items-center gap-2"
+          className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-100 border border-slate-700 font-medium text-sm transition shadow-sm flex items-center gap-2"
         >
-          <Sparkles className="w-4 h-4" />
-          <span>Extract from Notes (AI)</span>
+          <FileText className="w-4 h-4 text-emerald-400" />
+          <span>Parse Meeting Notes</span>
         </button>
       </div>
 
@@ -77,7 +77,7 @@ export default function PipelineKanbanPage() {
           return (
             <div
               key={stage}
-              className="bg-[#0f172a] rounded-2xl p-4 border border-slate-800 flex flex-col min-h-[550px]"
+              className="bg-[#0e1424] rounded-2xl p-4 border border-slate-800 flex flex-col min-h-[550px]"
             >
               {/* Column Header */}
               <div className="flex items-center justify-between pb-3.5 border-b border-slate-800 mb-3.5">

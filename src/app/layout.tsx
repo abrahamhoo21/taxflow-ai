@@ -17,20 +17,20 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark">
-      <body className="flex h-screen overflow-hidden bg-[#090d16] text-slate-100 antialiased">
+      <body className="flex h-screen overflow-hidden bg-[#0b0f19] text-slate-100 antialiased">
         
         {/* Left Sidebar Navigation */}
-        <aside className="w-64 bg-[#0d1322] border-r border-slate-800 flex flex-col justify-between p-4 flex-shrink-0 select-none">
+        <aside className="w-64 bg-[#0e1424] border-r border-slate-800/80 flex flex-col justify-between p-4 flex-shrink-0 select-none">
           <div className="space-y-6">
             
             {/* Logo */}
             <div className="flex items-center gap-3 px-2">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center font-black text-white text-base shadow-lg shadow-blue-500/20">
+              <div className="w-10 h-10 rounded-xl bg-[#c8102e] flex items-center justify-center font-black text-white text-base shadow-sm tracking-wider">
                 YYC
               </div>
               <div>
                 <div className="font-bold text-slate-100 tracking-tight leading-none text-base">taxPOD CRM</div>
-                <div className="text-xs text-slate-400 mt-1">Enterprise Sales &amp; AI</div>
+                <div className="text-xs text-slate-400 mt-1">Enterprise Advisory</div>
               </div>
             </div>
 
@@ -38,31 +38,31 @@ export default function RootLayout({
             <nav className="space-y-1">
               <Link
                 href="/"
-                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800/60 font-medium text-sm transition"
+                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800/60 font-medium text-sm transition group"
               >
-                <LayoutDashboard className="w-4 h-4 text-blue-400" />
+                <LayoutDashboard className="w-4 h-4 text-slate-400 group-hover:text-blue-400 transition-colors" />
                 <span>Dashboard</span>
               </Link>
               <Link
                 href="/leads"
-                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800/60 font-medium text-sm transition"
+                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800/60 font-medium text-sm transition group"
               >
-                <Users className="w-4 h-4 text-emerald-400" />
+                <Users className="w-4 h-4 text-slate-400 group-hover:text-emerald-400 transition-colors" />
                 <span>Leads &amp; Contacts</span>
               </Link>
               <Link
                 href="/pipeline"
-                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800/60 font-medium text-sm transition"
+                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800/60 font-medium text-sm transition group"
               >
-                <KanbanSquare className="w-4 h-4 text-amber-400" />
+                <KanbanSquare className="w-4 h-4 text-slate-400 group-hover:text-amber-400 transition-colors" />
                 <span>Pipeline (Kanban)</span>
               </Link>
               <Link
                 href="/knowledge"
-                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800/60 font-medium text-sm transition"
+                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800/60 font-medium text-sm transition group"
               >
-                <BookOpen className="w-4 h-4 text-purple-400" />
-                <span>Knowledge Base</span>
+                <BookOpen className="w-4 h-4 text-slate-400 group-hover:text-cyan-400 transition-colors" />
+                <span>Tax Knowledge Base</span>
               </Link>
             </nav>
           </div>
@@ -70,7 +70,7 @@ export default function RootLayout({
           {/* Bottom Profile */}
           <div className="pt-4 border-t border-slate-800">
             <div className="flex items-center gap-3 px-2">
-              <div className="w-9 h-9 rounded-full bg-blue-600/20 border border-blue-500/30 flex items-center justify-center font-bold text-sm text-blue-400">
+              <div className="w-9 h-9 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center font-bold text-sm text-slate-300">
                 <User className="w-4 h-4" />
               </div>
               <div className="overflow-hidden">

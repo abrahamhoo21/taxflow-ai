@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Sparkles, FileText, CheckCircle2, X, Loader2, Check } from 'lucide-react';
+import { FileText, CheckCircle2, X, Loader2, Check } from 'lucide-react';
 import { ExtractedNotes } from '@/types/rag';
 
 export function NotesExtractorModal() {
@@ -96,26 +96,28 @@ export function NotesExtractorModal() {
       {/* Global Shortcut Button */}
       <button
         onClick={handleOpen}
-        className="fixed bottom-6 left-6 z-40 flex items-center gap-2.5 px-4 py-3 rounded-full bg-[#0f172a] hover:bg-slate-800 text-purple-300 font-semibold text-sm border border-purple-500/30 shadow-xl transition transform hover:scale-105"
+        className="fixed bottom-6 left-6 z-40 flex items-center gap-2.5 px-4 py-2.5 rounded-full bg-[#111827] hover:bg-slate-800 text-slate-200 font-medium text-sm border border-slate-700/80 shadow-xl transition"
       >
-        <FileText className="w-4 h-4 text-purple-400" />
-        <span>Extract Notes AI (Option B)</span>
+        <div className="w-6 h-6 rounded-md bg-emerald-600/20 text-emerald-400 flex items-center justify-center border border-emerald-500/30">
+          <FileText className="w-3.5 h-3.5 text-emerald-400" />
+        </div>
+        <span>Parse Meeting Notes</span>
       </button>
 
       {/* Modal Dialog */}
       {isOpen && (
         <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="w-full max-w-2xl bg-[#0f172a] border border-slate-800 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+          <div className="w-full max-w-2xl bg-[#0e1424] border border-slate-800 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
             
             {/* Header */}
-            <div className="p-5 border-b border-slate-800 flex items-center justify-between bg-slate-900/60">
+            <div className="p-5 border-b border-slate-800 flex items-center justify-between bg-[#111827]">
               <div>
                 <h2 className="font-bold text-base text-slate-100 flex items-center gap-2">
-                  <Sparkles className="w-5 h-5 text-purple-400" />
-                  <span>Meeting Notes Extractor (Human-in-the-Loop)</span>
+                  <FileText className="w-5 h-5 text-emerald-400" />
+                  <span>Meeting Notes to CRM Extractor (Review &amp; Confirm)</span>
                 </h2>
                 <p className="text-xs text-slate-400 mt-1">
-                  Paste unstructured sales chat / meeting notes ➔ AI extracts contacts &amp; deals ➔ You review before saving
+                  Paste unstructured sales chat / meeting notes ➔ Extract contacts &amp; deals ➔ Review and edit before saving
                 </p>
               </div>
               <button 
@@ -137,38 +139,38 @@ export function NotesExtractorModal() {
                   value={rawText}
                   onChange={e => setRawText(e.target.value)}
                   placeholder="Paste unstructured notes..."
-                  className="w-full p-3.5 rounded-xl bg-slate-900 border border-slate-700 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-purple-500 leading-relaxed"
+                  className="w-full p-3.5 rounded-xl bg-slate-900 border border-slate-700 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-blue-500 leading-relaxed"
                 />
               </div>
 
               <button
                 onClick={handleExtract}
                 disabled={loading || !rawText.trim()}
-                className="w-full py-3 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 text-white font-semibold text-sm flex items-center justify-center gap-2 transition disabled:opacity-50 shadow-md"
+                className="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-medium text-sm flex items-center justify-center gap-2 transition disabled:opacity-50 shadow-sm"
               >
                 {loading ? (
                   <>
                     <Loader2 className="w-4 h-4 animate-spin" />
-                    <span>Extracting with Gemini Flash JSON Schema...</span>
+                    <span>Parsing notes into structured CRM fields...</span>
                   </>
                 ) : (
                   <>
-                    <Sparkles className="w-4 h-4" />
-                    <span>Extract with AI</span>
+                    <FileText className="w-4 h-4" />
+                    <span>Extract Lead &amp; Deal Terms</span>
                   </>
                 )}
               </button>
 
               {/* Structured Output Form for Human-in-the-Loop Review */}
               {extracted && (
-                <div className="p-5 rounded-2xl bg-purple-950/20 border border-purple-500/30 space-y-4">
+                <div className="p-5 rounded-2xl bg-slate-900 border border-slate-700/80 space-y-4">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-bold text-purple-300 flex items-center gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-purple-400" />
+                    <span className="text-sm font-bold text-slate-200 flex items-center gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-400" />
                       <span>Human-in-the-Loop Verification (Editable)</span>
                     </span>
-                    <span className="text-xs px-2.5 py-0.5 rounded bg-purple-500/20 text-purple-300 font-mono font-semibold">
-                      Strict Schema
+                    <span className="text-xs px-2.5 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700 font-mono font-medium">
+                      Structured Fields
                     </span>
                   </div>
 
@@ -179,7 +181,7 @@ export function NotesExtractorModal() {
                         type="text"
                         value={extracted.contactName}
                         onChange={e => setExtracted({ ...extracted, contactName: e.target.value })}
-                        className="w-full mt-1 p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-sm text-slate-200 focus:outline-none focus:border-purple-500"
+                        className="w-full mt-1 p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-sm text-slate-200 focus:outline-none focus:border-blue-500"
                       />
                     </div>
                     <div>
@@ -188,7 +190,7 @@ export function NotesExtractorModal() {
                         type="text"
                         value={extracted.companyName}
                         onChange={e => setExtracted({ ...extracted, companyName: e.target.value })}
-                        className="w-full mt-1 p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-sm text-slate-200 focus:outline-none focus:border-purple-500"
+                        className="w-full mt-1 p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-sm text-slate-200 focus:outline-none focus:border-blue-500"
                       />
                     </div>
                     <div>
@@ -205,7 +207,7 @@ export function NotesExtractorModal() {
                       <select
                         value={extracted.stage || 'Qualified'}
                         onChange={e => setExtracted({ ...extracted, stage: e.target.value as ExtractedNotes['stage'] })}
-                        className="w-full mt-1 p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-sm text-slate-200 focus:outline-none focus:border-purple-500"
+                        className="w-full mt-1 p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-sm text-slate-200 focus:outline-none focus:border-blue-500"
                       >
                         <option value="New">New</option>
                         <option value="Contacted">Contacted</option>
@@ -227,7 +229,7 @@ export function NotesExtractorModal() {
             </div>
 
             {/* Footer Actions */}
-            <div className="p-4 border-t border-slate-800 bg-slate-900/60 flex items-center justify-end gap-3">
+            <div className="p-4 border-t border-slate-800 bg-[#111827] flex items-center justify-end gap-3">
               <button 
                 onClick={() => setIsOpen(false)} 
                 className="px-5 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-white transition"
@@ -237,7 +239,7 @@ export function NotesExtractorModal() {
               {extracted && (
                 <button
                   onClick={handleConfirmSave}
-                  className="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-sm transition shadow-lg shadow-emerald-600/20 flex items-center gap-2"
+                  className="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-sm transition shadow-sm flex items-center gap-2"
                 >
                   <Check className="w-4 h-4" />
                   <span>Confirm &amp; Save to CRM</span>
