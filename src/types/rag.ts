@@ -13,6 +13,8 @@ export interface Citation {
   page_number: number;
   section_title?: string;
   snippet?: string;
+  view_url?: string;
+  official_url?: string;
 }
 
 export interface RAGQueryRequest {

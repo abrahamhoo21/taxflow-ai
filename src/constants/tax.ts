@@ -55,3 +55,18 @@ export const TAX_CHAT_CONFIG = {
     },
   ] as SuggestedQuestion[],
 } as const;
+
+/**
+ * Official Online Reference Links (LHDN Official Portals & Publications)
+ */
+export const OFFICIAL_TAX_DOC_LINKS: Record<string, string> = {
+  'IRBM-e-Invoice-Guideline.pdf': 'https://www.hasil.gov.my/en/e-invoice/guidelines-and-specifications/',
+  'lhdnm-e-invoice-general-faqs.pdf': 'https://www.hasil.gov.my/en/e-invoice/general-faqs/',
+  'PR-No.4_2026-Special-Allowances-For-Small-Value-Assets.pdf': 'https://www.hasil.gov.my/en/legislation/public-rulings/',
+  '20261104-PR-5_Taxation-Of-A-Resident-Individualpart-I-Gifts-Or-Contributions-And-Allowable-Deductions.pdf': 'https://www.hasil.gov.my/en/legislation/public-rulings/',
+  'pr_03_2026-bilateral-credit-and-unilateral-credit.pdf': 'https://www.hasil.gov.my/en/legislation/public-rulings/',
+};
+
+export function getOfficialDocUrl(docName: string): string {
+  return OFFICIAL_TAX_DOC_LINKS[docName] || 'https://www.hasil.gov.my/';
+}

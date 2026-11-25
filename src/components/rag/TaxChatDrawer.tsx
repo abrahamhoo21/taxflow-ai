@@ -12,6 +12,8 @@ import {
   Loader2,
   Sparkles,
   RotateCcw,
+  ExternalLink,
+  FileText,
 } from 'lucide-react';
 import { TAX_CHAT_CONFIG } from '@/constants/tax';
 
@@ -171,13 +173,42 @@ export function TaxChatDrawer() {
                     {m.responseData.citations.map((c, cIdx) => (
                       <div
                         key={cIdx}
-                        className="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 text-xs text-slate-300 font-mono space-y-1"
+                        className="p-3 rounded-xl bg-slate-900/95 border border-slate-800 text-xs text-slate-300 space-y-2"
                       >
                         <div>
-                          Doc: <span className="text-slate-100 font-medium">{c.doc_name}</span>
+                          <div className="text-slate-200 font-mono text-[11px] font-medium truncate" title={c.doc_name}>
+                            {c.doc_name}
+                          </div>
+                          <div className="text-amber-400 font-medium text-xs mt-0.5">
+                            Page {c.page_number} {c.section_title ? `• ${c.section_title}` : ''}
+                          </div>
                         </div>
-                        <div className="text-amber-400 font-medium">
-                          Page {c.page_number} {c.section_title ? `• ${c.section_title}` : ''}
+
+                        {/* Interactive Online PDF & Official Portal Links */}
+                        <div className="flex flex-wrap items-center gap-2 pt-1.5 border-t border-slate-800/80">
+                          {c.view_url && (
+                            <a
+                              href={c.view_url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 hover:text-blue-200 border border-blue-500/30 text-[11px] font-medium transition"
+                            >
+                              <FileText className="w-3 h-3 text-blue-400" />
+                              <span>Open PDF (Page {c.page_number})</span>
+                              <ExternalLink className="w-2.5 h-2.5 opacity-70" />
+                            </a>
+                          )}
+                          {c.official_url && (
+                            <a
+                              href={c.official_url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700/60 text-[11px] font-medium transition"
+                            >
+                              <span>Official LHDN Portal</span>
+                              <ExternalLink className="w-2.5 h-2.5 opacity-70" />
+                            </a>
+                          )}
                         </div>
                       </div>
                     ))}

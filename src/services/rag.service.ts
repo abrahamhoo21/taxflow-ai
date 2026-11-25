@@ -5,6 +5,7 @@ import { genAI, CHAT_MODEL, FALLBACK_CHAT_MODEL, getEmbedding, RAG_SYSTEM_PROMPT
 import { supabaseAdmin } from '@/lib/supabase';
 import { Citation, RAGQueryResponse } from '@/types/rag';
 import { RAG_DEFAULTS } from '@/constants/crm';
+import { getOfficialDocUrl } from '@/constants/tax';
 
 export interface DocumentSummary {
   doc_name: string;
@@ -62,6 +63,8 @@ export class TaxRAGService {
       page_number: chunk.page_number,
       section_title: chunk.section_title,
       snippet: chunk.chunk_content.substring(0, 150) + '...',
+      view_url: `/api/rag/documents/view?doc=${encodeURIComponent(chunk.doc_name)}#page=${chunk.page_number}`,
+      official_url: getOfficialDocUrl(chunk.doc_name),
     }));
 
     // 5. Build Grounded Context Block
