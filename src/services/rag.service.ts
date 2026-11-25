@@ -63,7 +63,7 @@ export class TaxRAGService {
       page_number: chunk.page_number,
       section_title: chunk.section_title,
       snippet: chunk.chunk_content.substring(0, 150) + '...',
-      view_url: `/api/rag/documents/view?doc=${encodeURIComponent(chunk.doc_name)}#page=${chunk.page_number}`,
+      view_url: `/api/rag/documents/view/${encodeURIComponent(chunk.doc_name)}#page=${chunk.page_number}`,
       official_url: getOfficialDocUrl(chunk.doc_name),
     }));
 

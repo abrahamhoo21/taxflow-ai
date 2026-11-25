@@ -3,24 +3,22 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 /**
- * GET /api/rag/documents/view?doc=filename.pdf
- * Streams official PDF document to the browser for inline viewing.
- * Supports #page=N browser deep linking directly to cited pages.
+ * GET /api/rag/documents/view/[filename]
+ * Serves statutory PDF files with clean .pdf path for reliable browser #page=N deep-linking.
  */
-export async function GET(request: Request) {
+export async function GET(
+  request: Request,
+  { params }: { params: { filename: string } }
+) {
   try {
-    const { searchParams } = new URL(request.url);
-    const docName = searchParams.get('doc');
-
-    if (!docName || typeof docName !== 'string') {
-      return new NextResponse('Missing required "doc" query parameter.', { status: 400 });
-    }
-
-    const cleanName = path.basename(docName);
+    const rawFilename = params.filename;
+    const cleanName = path.basename(decodeURIComponent(rawFilename));
     const filePath = path.join(process.cwd(), 'knowledge-base', cleanName);
 
     if (!fs.existsSync(filePath)) {
-      return new NextResponse(`Document "${cleanName}" not found in knowledge-base repository.`, { status: 404 });
+      return new NextResponse(`Document "${cleanName}" not found in knowledge-base repository.`, {
+        status: 404,
+      });
     }
 
     const fileBuffer = fs.readFileSync(filePath);

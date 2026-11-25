@@ -21,6 +21,7 @@ export function TaxChatDrawer() {
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
+  const [previewPdf, setPreviewPdf] = useState<{ docName: string; pageNumber: number; url: string } | null>(null);
   const [messages, setMessages] = useState<
     Array<{ role: 'user' | 'assistant'; text: string; responseData?: RAGQueryResponse }>
   >([
@@ -187,15 +188,24 @@ export function TaxChatDrawer() {
                         {/* Interactive Online PDF & Official Portal Links */}
                         <div className="flex flex-wrap items-center gap-2 pt-1.5 border-t border-slate-800/80">
                           {c.view_url && (
+                            <button
+                              type="button"
+                              onClick={() => setPreviewPdf({ docName: c.doc_name, pageNumber: c.page_number, url: c.view_url! })}
+                              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 hover:text-blue-200 border border-blue-500/30 text-[11px] font-medium transition cursor-pointer"
+                            >
+                              <FileText className="w-3 h-3 text-blue-400" />
+                              <span>Open PDF (Page {c.page_number})</span>
+                            </button>
+                          )}
+                          {c.view_url && (
                             <a
                               href={c.view_url}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 hover:text-blue-200 border border-blue-500/30 text-[11px] font-medium transition"
+                              className="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700/60 text-[11px] font-medium transition"
+                              title="Open raw PDF in new browser tab"
                             >
-                              <FileText className="w-3 h-3 text-blue-400" />
-                              <span>Open PDF (Page {c.page_number})</span>
-                              <ExternalLink className="w-2.5 h-2.5 opacity-70" />
+                              <span>Tab ↗</span>
                             </a>
                           )}
                           {c.official_url && (
@@ -285,6 +295,57 @@ export function TaxChatDrawer() {
           </div>
         </form>
       </div>
+
+      {/* In-App PDF Page-Accurate Viewer Modal */}
+      {previewPdf && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center p-3 sm:p-6 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="w-full max-w-5xl h-[90vh] bg-[#0c1220] border border-slate-700 rounded-2xl shadow-2xl flex flex-col overflow-hidden">
+            {/* Modal Header */}
+            <div className="px-5 py-3.5 bg-[#0f172a] border-b border-slate-800 flex items-center justify-between gap-3">
+              <div className="flex items-center gap-2.5 min-w-0">
+                <div className="p-2 rounded-lg bg-blue-600/20 text-blue-400 border border-blue-500/30">
+                  <FileText className="w-4 h-4" />
+                </div>
+                <div className="min-w-0">
+                  <h3 className="text-sm font-semibold text-white truncate" title={previewPdf.docName}>
+                    {previewPdf.docName}
+                  </h3>
+                  <p className="text-xs text-amber-400 font-medium">
+                    Auto-jumped to Page {previewPdf.pageNumber} via statutory citation
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2 flex-shrink-0">
+                <a
+                  href={previewPdf.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white border border-slate-700 text-xs font-medium transition"
+                >
+                  <span>Open Fullscreen</span>
+                  <ExternalLink className="w-3 h-3 opacity-70" />
+                </a>
+                <button
+                  type="button"
+                  onClick={() => setPreviewPdf(null)}
+                  className="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center transition"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+
+            {/* Modal Body: Embedded PDF with #page=N parameter */}
+            <div className="flex-1 bg-slate-900 relative">
+              <iframe
+                src={previewPdf.url}
+                className="w-full h-full border-0"
+                title={`${previewPdf.docName} - Page ${previewPdf.pageNumber}`}
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
