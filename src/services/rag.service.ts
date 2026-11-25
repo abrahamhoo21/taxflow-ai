@@ -1,11 +1,12 @@
 import * as fs from 'fs';
 import * as path from 'path';
+import * as crypto from 'crypto';
 import pdf from 'pdf-parse';
 import { genAI, CHAT_MODEL, FALLBACK_CHAT_MODEL, getEmbedding, RAG_SYSTEM_PROMPT } from '@/lib/gemini';
 import { supabaseAdmin } from '@/lib/supabase';
 import { Citation, RAGQueryResponse } from '@/types/rag';
 import { RAG_DEFAULTS } from '@/constants/crm';
-import { getOfficialDocUrl } from '@/constants/tax';
+import { getOfficialDocUrl, RAG_INGESTION_CONFIG } from '@/constants/tax';
 
 export interface DocumentSummary {
   doc_name: string;
@@ -147,24 +148,73 @@ Generate a concise, authoritative answer for our YYC tax consultant team. Rememb
   }
 
   /**
-   * Ingest an uploaded PDF buffer into Supabase pgvector
+   * Ingest an uploaded PDF buffer into Supabase pgvector with full validation & duplicate prevention.
    */
   static async ingestPdfBuffer(
     buffer: Buffer,
-    originalFileName: string
-  ): Promise<{ docName: string; chunksCount: number; pagesCount: number }> {
+    originalFileName: string,
+    options?: { force?: boolean }
+  ): Promise<{
+    docName: string;
+    chunksCount: number;
+    pagesCount: number;
+    fileHash: string;
+    fileSizeBytes: number;
+    isDuplicate?: boolean;
+    message?: string;
+  }> {
     const cleanFileName = path.basename(originalFileName).replace(/[^a-zA-Z0-9._-]/g, '_');
 
-    // 1. Persist local copy in knowledge-base directory
-    const kbDir = path.join(process.cwd(), 'knowledge-base');
-    if (!fs.existsSync(kbDir)) {
-      fs.mkdirSync(kbDir, { recursive: true });
+    // 1. Validation: Magic Bytes Check (%PDF-)
+    const fileHeader = buffer.subarray(0, 5).toString('ascii');
+    if (!fileHeader.startsWith(RAG_INGESTION_CONFIG.PDF_MAGIC_BYTES)) {
+      throw new Error(
+        `Corrupt or invalid PDF file header. Expected "%PDF-", but received "${fileHeader.replace(/[^\x20-\x7E]/g, '?')}". Only genuine PDF documents are accepted.`
+      );
     }
-    fs.writeFileSync(path.join(kbDir, cleanFileName), buffer);
 
-    // 2. Extract pages using pdf-parse with custom page renderer
+    // 2. Validation: Maximum Size Limit (30MB)
+    if (buffer.length > RAG_INGESTION_CONFIG.MAX_FILE_SIZE_BYTES) {
+      const sizeMB = (buffer.length / (1024 * 1024)).toFixed(1);
+      throw new Error(
+        `File size (${sizeMB} MB) exceeds maximum allowed limit of ${(RAG_INGESTION_CONFIG.MAX_FILE_SIZE_BYTES / (1024 * 1024)).toFixed(0)} MB.`
+      );
+    }
+
+    // 3. Validation: SHA-256 Content Fingerprint & Duplicate Prevention
+    const fileHash = crypto.createHash('sha256').update(buffer).digest('hex');
+
+    // Query existing chunks to see if this exact content was already uploaded
+    const { data: existingRecords } = await supabaseAdmin
+      .from('tax_document_chunks')
+      .select('doc_name, metadata')
+      .filter('metadata->>file_hash', 'eq', fileHash)
+      .limit(1);
+
+    if (existingRecords && existingRecords.length > 0) {
+      const existingDoc = existingRecords[0].doc_name;
+      if (existingDoc !== cleanFileName) {
+        // Different filename, but 100% duplicate file contents!
+        throw new Error(
+          `Duplicate document detected: The contents of "${cleanFileName}" are 100% identical to already ingested document "${existingDoc}" (SHA-256: ${fileHash.substring(0, 10)}...). Upload rejected to prevent duplicate vector entries.`
+        );
+      } else if (!options?.force) {
+        // Identical file name and identical hash, and user did not force re-index
+        return {
+          docName: cleanFileName,
+          chunksCount: 0,
+          pagesCount: 0,
+          fileHash,
+          fileSizeBytes: buffer.length,
+          isDuplicate: true,
+          message: `Document "${cleanFileName}" is already indexed with identical content (SHA-256: ${fileHash.substring(0, 8)}...). Re-indexing skipped to conserve API quota. Use "Force re-index" to override.`,
+        };
+      }
+    }
+
+    // 4. Extract pages using pdf-parse with custom page renderer
     const pages: { pageNumber: number; text: string }[] = [];
-    const options = {
+    const parseOptions = {
       pagerender: async function (pageData: { pageIndex: number; getTextContent: () => Promise<{ items: Array<{ transform: number[]; str: string }> }> }) {
         const textContent = await pageData.getTextContent();
         let lastY: number | undefined;
@@ -185,14 +235,27 @@ Generate a concise, authoritative answer for our YYC tax consultant team. Rememb
       },
     };
 
-    await pdf(buffer, options);
+    await pdf(buffer, parseOptions);
     pages.sort((a, b) => a.pageNumber - b.pageNumber);
 
-    if (pages.length === 0) {
-      throw new Error('PDF document contains no readable text pages.');
+    // 5. Validation: Zero-Text / Scanned Physical Image Guard
+    const totalExtractedText = pages.map(p => p.text).join(' ').trim();
+    if (pages.length === 0 || totalExtractedText.length < RAG_INGESTION_CONFIG.MIN_DOCUMENT_TEXT_LENGTH) {
+      throw new Error(
+        'PDF contains no readable digital text (scanned physical image or empty pages without OCR). The RAG assistant requires text-searchable PDFs to generate embeddings.'
+      );
     }
 
-    // 3. Chunk the pages
+    // 6. Validation: Tax & Statutory Domain Relevance Guard (Wrong Doc Prevention)
+    const lowerText = totalExtractedText.toLowerCase();
+    const hasTaxDomainKeywords = RAG_INGESTION_CONFIG.TAX_DOMAIN_KEYWORDS.some(kw => lowerText.includes(kw));
+    if (!hasTaxDomainKeywords) {
+      throw new Error(
+        'The uploaded document does not appear to contain Malaysian tax, statutory, or financial regulatory content. Please ensure you are uploading official tax guidelines, public rulings, or legal acts.'
+      );
+    }
+
+    // 7. Chunk the pages
     const chunks: { pageNumber: number; sectionTitle: string; content: string }[] = [];
     let currentSection = cleanFileName.replace(/\.pdf$/i, '').replace(/[-_]/g, ' ');
 
@@ -230,13 +293,24 @@ Generate a concise, authoritative answer for our YYC tax consultant team. Rememb
       }
     }
 
-    // 4. Overwrite existing chunks for this specific document if present
+    if (chunks.length === 0) {
+      throw new Error('No semantically meaningful text chunks could be generated from this document.');
+    }
+
+    // 8. Persist verified copy to knowledge-base directory
+    const kbDir = path.join(process.cwd(), 'knowledge-base');
+    if (!fs.existsSync(kbDir)) {
+      fs.mkdirSync(kbDir, { recursive: true });
+    }
+    fs.writeFileSync(path.join(kbDir, cleanFileName), buffer);
+
+    // 9. Atomic overwrite: Remove existing chunks for this specific document
     await supabaseAdmin
       .from('tax_document_chunks')
       .delete()
       .eq('doc_name', cleanFileName);
 
-    // 5. Embed and save chunks to Supabase
+    // 10. Generate Embeddings & Save to Supabase pgvector with full metadata
     let inserted = 0;
     for (let i = 0; i < chunks.length; i++) {
       const c = chunks[i];
@@ -252,6 +326,8 @@ Generate a concise, authoritative answer for our YYC tax consultant team. Rememb
           page_number: c.pageNumber,
           chunk_index: i,
           total_chunks: chunks.length,
+          file_hash: fileHash,
+          file_size_bytes: buffer.length,
           ingested_at: new Date().toISOString(),
         },
       });
@@ -270,6 +346,8 @@ Generate a concise, authoritative answer for our YYC tax consultant team. Rememb
       docName: cleanFileName,
       chunksCount: inserted,
       pagesCount: pages.length,
+      fileHash,
+      fileSizeBytes: buffer.length,
     };
   }
 

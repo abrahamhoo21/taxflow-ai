@@ -8,6 +8,7 @@ import {
   Trash2,
   CheckCircle2,
   AlertCircle,
+  AlertTriangle,
   Loader2,
   RefreshCw,
   Database,
@@ -24,6 +25,7 @@ export default function KnowledgeBasePage() {
   const [uploadProgress, setUploadProgress] = useState<string>('');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [dragOver, setDragOver] = useState(false);
+  const [forceReindex, setForceReindex] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
   const [deletingDoc, setDeletingDoc] = useState<string | null>(null);
@@ -57,8 +59,13 @@ export default function KnowledgeBasePage() {
       setError('Invalid file format. Please upload official PDF documents (.pdf) only.');
       return;
     }
+    if (file.size > 30 * 1024 * 1024) {
+      setError('File size exceeds the maximum limit of 30MB. Please choose a smaller document.');
+      return;
+    }
     setError(null);
     setSelectedFile(file);
+    setForceReindex(false);
   };
 
   const handleDrop = (e: React.DragEvent) => {
@@ -76,12 +83,12 @@ export default function KnowledgeBasePage() {
       setUploading(true);
       setError(null);
       setSuccessMsg(null);
-      setUploadProgress('Extracting PDF pages and physical layout...');
+      setUploadProgress('Validating PDF format & security checks...');
 
       const formData = new FormData();
       formData.append('file', selectedFile);
 
-      // Simulating stepped feedback
+      // Stepped user feedback
       const timer1 = setTimeout(() => {
         setUploadProgress('Generating 768-dim embeddings with Google Gemini...');
       }, 1500);
@@ -90,7 +97,8 @@ export default function KnowledgeBasePage() {
         setUploadProgress('Writing vector chunks to Supabase pgvector...');
       }, 4000);
 
-      const res = await fetch('/api/rag/upload', {
+      const url = `/api/rag/upload${forceReindex ? '?force=true' : ''}`;
+      const res = await fetch(url, {
         method: 'POST',
         body: formData,
       });
@@ -105,9 +113,11 @@ export default function KnowledgeBasePage() {
       }
 
       setSuccessMsg(
+        data.message ||
         `Successfully ingested "${data.document.docName}" (${data.document.pagesCount} pages, ${data.document.chunksCount} chunks). RAG Chatbot is now updated!`
       );
       setSelectedFile(null);
+      setForceReindex(false);
       if (fileInputRef.current) {
         fileInputRef.current.value = '';
       }
@@ -284,12 +294,35 @@ export default function KnowledgeBasePage() {
               <div>
                 <div className="text-sm font-semibold text-slate-100">{selectedFile.name}</div>
                 <div className="text-xs text-slate-400 mt-0.5">
-                  {(selectedFile.size / (1024 * 1024)).toFixed(2)} MB • Ready for Vector Ingestion
+                  {(selectedFile.size / (1024 * 1024)).toFixed(2)} MB • Ready for Validation &amp; Vector Ingestion
                 </div>
               </div>
-              <p className="text-xs text-emerald-400 font-medium">
-                Click &quot;Ingest to Vector Database&quot; below to process.
-              </p>
+
+              {documents.some(d => d.doc_name.toLowerCase() === selectedFile.name.replace(/[^a-zA-Z0-9._-]/g, '_').toLowerCase()) ? (
+                <div className="max-w-md mx-auto p-3 rounded-xl bg-amber-950/40 border border-amber-500/30 text-amber-300 text-xs text-left space-y-1.5">
+                  <div className="flex items-center gap-1.5 font-semibold text-amber-200">
+                    <AlertTriangle className="w-3.5 h-3.5 text-amber-400" />
+                    <span>Existing Document Detected</span>
+                  </div>
+                  <p className="text-[11px] text-amber-300/90 leading-relaxed">
+                    A document with this name is already indexed in pgvector. Ingesting will replace its previous chunks with the new version.
+                  </p>
+                  <label className="flex items-center gap-2 pt-1 cursor-pointer text-amber-200 text-[11px]">
+                    <input
+                      type="checkbox"
+                      checked={forceReindex}
+                      onChange={e => setForceReindex(e.target.checked)}
+                      onClick={e => e.stopPropagation()}
+                      className="rounded border-amber-600 bg-slate-900 text-blue-600 focus:ring-0"
+                    />
+                    <span>Force re-index even if file content (SHA-256) is identical</span>
+                  </label>
+                </div>
+              ) : (
+                <p className="text-xs text-emerald-400 font-medium">
+                  Verified format: Click &quot;Ingest to Vector Database&quot; below to process.
+                </p>
+              )}
             </div>
           ) : (
             <div className="space-y-3">

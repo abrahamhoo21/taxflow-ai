@@ -4,6 +4,7 @@ dotenv.config({ path: '.env' });
 
 import * as fs from 'fs';
 import * as path from 'path';
+import * as crypto from 'crypto';
 import pdf from 'pdf-parse';
 import { getEmbedding } from '../src/lib/gemini';
 import { supabaseAdmin } from '../src/lib/supabase';
@@ -150,7 +151,9 @@ async function runIngestion() {
 
   for (const file of pdfFiles) {
     const filePath = path.join(KB_DIR, file);
-    console.log(`⏳ Parsing PDF pages: ${file}...`);
+    const fileBuffer = fs.readFileSync(filePath);
+    const fileHash = crypto.createHash('sha256').update(fileBuffer).digest('hex');
+    console.log(`⏳ Parsing PDF pages: ${file} (SHA-256: ${fileHash.substring(0, 10)}...)...`);
 
     const pages = await extractPagesFromPdf(filePath);
     const chunks = chunkPdfPages(file, pages);
@@ -173,6 +176,8 @@ async function runIngestion() {
             page_number: chunk.pageNumber,
             chunk_index: i,
             total_chunks: chunks.length,
+            file_hash: fileHash,
+            file_size_bytes: fileBuffer.length,
             ingested_at: new Date().toISOString(),
           },
         });

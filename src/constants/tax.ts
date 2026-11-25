@@ -70,3 +70,48 @@ export const OFFICIAL_TAX_DOC_LINKS: Record<string, string> = {
 export function getOfficialDocUrl(docName: string): string {
   return OFFICIAL_TAX_DOC_LINKS[docName] || 'https://www.hasil.gov.my/';
 }
+
+/**
+ * Strict Document Ingestion & Validation Guardrails
+ * Enforces file size limits, header validation, content duplicate checks, and tax domain relevance.
+ */
+export const RAG_INGESTION_CONFIG = {
+  MAX_FILE_SIZE_BYTES: 30 * 1024 * 1024, // 30 MB maximum PDF size
+  MIN_DOCUMENT_TEXT_LENGTH: 100,          // Minimum total extractable characters
+  PDF_MAGIC_BYTES: '%PDF-',              // Valid PDF header identifier
+  TAX_DOMAIN_KEYWORDS: [
+    'tax',
+    'cukai',
+    'lhdn',
+    'irbm',
+    'hasil',
+    'invois',
+    'invoice',
+    'allowance',
+    'elaun',
+    'ruling',
+    'guideline',
+    'garis panduan',
+    'act',
+    'akta',
+    'schedule',
+    'jadual',
+    'section',
+    'seksyen',
+    'rmcd',
+    'kastam',
+    'customs',
+    'sst',
+    'relief',
+    'pelepasan',
+    'deduction',
+    'potongan',
+    'assessment',
+    'taksiran',
+    'qualifying',
+    'plant',
+    'expenditure',
+    'resident',
+    'individual',
+  ],
+} as const;
