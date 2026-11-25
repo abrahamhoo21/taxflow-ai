@@ -12,11 +12,24 @@
 - **Executive Dashboard**: Real-time KPI summary (Total Contacts, Open Deals, Total Pipeline Value RM, Won Contracts) + Chronological activity timeline.
 
 ### Part 2: Mandatory AI Integration (RAG)
-- **Official Knowledge Base**: Ingested 5 authoritative Malaysian tax documents (LHDN e-Invoice Guidelines v3.0, Specific Guidelines, RMCD Service Tax 8% Guide, Sales Tax on LVG Guide, and LHDN Public Ruling 1/2024).
-- **Sub-millisecond Retrieval**: Chunked (~800 tokens, 150 overlap) and embedded with Google `text-embedding-004` (768 dimensions), stored in **Supabase PostgreSQL with pgvector (HNSW Index)**.
-- **Accurate Citations**: Answers cite exact document name, page number, and statutory section: `[Doc: ..., Page: ..., Section: ...]`.
+- **100% Real Statutory Knowledge Base**: Ingested 5 authoritative Malaysian tax documents (IRBM e-Invoice Guidelines, LHDN e-Invoice General FAQs, Public Ruling 4/2026 Small Value Assets, Public Ruling 5/2026 Resident Individual Deductions, and Public Ruling 3/2026 Bilateral & Unilateral Tax Relief).
+- **Sub-millisecond Retrieval**: Chunked and embedded with Google `text-embedding-004` (768 dimensions), stored in **Supabase PostgreSQL with pgvector (HNSW Index)**.
+- **Accurate Citations & Interactive In-App PDF Deep-Linking**:
+  - Answers cite exact document name, page number, and statutory section: `[Doc: ..., Page: ..., Section: ...]`.
+  - **In-App Modal Viewer**: Click `Open PDF (Page X)` to launch an embedded viewer auto-scrolled to the cited page (`#page=N`).
+  - **Official LHDN Portal**: One-click direct link to official government publications on `hasil.gov.my`.
 - **Hallucination Guard**: Questions outside the knowledge base trigger a grounded refusal rather than speculation.
 - **Evaluation Benchmark**: Automated 10-query test suite reporting retrieval hit rates (`npm run eval`).
+
+### Part 3: Knowledge Base Management & Non-Tech Ingestion (`/knowledge`)
+- **Non-Technical UI Upload**: Drag-and-drop official PDFs directly from the browser without running manual CLI scripts.
+- **5-Layer Enterprise Validation & Duplicate Prevention**:
+  1. *Magic Bytes Header*: Validates `%PDF-` header to reject disguised `.exe`, `.docx`, or corrupted files.
+  2. *File Size Limits*: Enforces maximum 30MB limit to prevent server memory exhaustion.
+  3. *SHA-256 Content Fingerprint*: Detects duplicate content under different filenames to save embedding tokens.
+  4. *Zero-Text / Scanned Guard*: Rejects image-only/scanned physical PDFs that lack OCR text.
+  5. *Domain Relevance Guard*: Filters out non-tax/irrelevant uploads (recipes, resumes, contracts).
+- **Atomic Updates**: Replacing or updating existing documents cleanly purges old vector chunks before re-indexing.
 
 ### Option B: Meeting Notes Extractor (Human-in-the-Loop)
 - Paste messy meeting notes or sales WhatsApp chats ➔ Gemini 1.5 Flash extracts Contact, Company, Deal Value in RM, and Follow-up action items into strict JSON Schema.

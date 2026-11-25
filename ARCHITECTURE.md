@@ -21,6 +21,7 @@ flowchart TB
         Dashboard["Analytics Dashboard<br/><code>page.tsx</code>"]:::client
         LeadsUI["Leads Management<br/><code>leads/page.tsx</code>"]:::client
         KanbanUI["Opportunities Pipeline<br/><code>pipeline/page.tsx</code>"]:::client
+        KnowledgeUI["Knowledge Base Manager<br/><code>knowledge/page.tsx</code>"]:::client
         RAGDrawer["Tax Q&A Assistant Drawer<br/><code>TaxChatDrawer.tsx</code>"]:::client
         NotesModal["Meeting Notes Extractor<br/><code>NotesExtractorModal.tsx</code>"]:::client
     end
@@ -29,6 +30,8 @@ flowchart TB
         LeadsAPI["Leads Controller<br/><code>/api/leads</code>"]:::api
         OppsAPI["Opportunities Controller<br/><code>/api/opportunities</code>"]:::api
         RAGController["Tax RAG Controller<br/><code>/api/rag/query</code>"]:::api
+        UploadAPI["PDF Upload & Validation<br/><code>/api/rag/upload</code>"]:::api
+        PDFViewAPI["PDF Streamer (#page=N)<br/><code>/api/rag/documents/view/[filename]</code>"]:::api
         NotesAPI["Notes Extractor Controller<br/><code>/api/ai/extract-notes</code>"]:::api
 
         CRMService["CRM Domain Service<br/><code>crm.service.ts</code>"]:::api
