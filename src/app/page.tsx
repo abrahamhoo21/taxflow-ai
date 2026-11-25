@@ -19,6 +19,7 @@ import { Opportunity, Activity } from '@/types/crm';
 export default function DashboardPage() {
   const [totalLeads, setTotalLeads] = useState<number>(5);
   const [opportunities, setOpportunities] = useState<Opportunity[]>([]);
+  const [documents, setDocuments] = useState<Array<{ doc_name: string; chunks_count: number; total_pages: number }>>([]);
   const [activities] = useState<Activity[]>([
     {
       id: '1',
@@ -63,6 +64,16 @@ export default function DashboardPage() {
       .then(res => res.json())
       .then(data => {
         if (Array.isArray(data)) setTotalLeads(data.length);
+      })
+      .catch(() => {});
+
+    // Fetch real ingested documents from RAG API
+    fetch('/api/rag/documents')
+      .then(res => res.json())
+      .then(data => {
+        if (data && Array.isArray(data.documents)) {
+          setDocuments(data.documents);
+        }
       })
       .catch(() => {});
   }, []);
@@ -189,28 +200,53 @@ export default function DashboardPage() {
         {/* Knowledge Base Status Card */}
         <div className="p-6 rounded-2xl bg-[#0f172a] border border-slate-800 flex flex-col justify-between">
           <div>
-            <h2 className="font-bold text-base text-slate-100 mb-3">Malaysian Tax RAG Status</h2>
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="font-bold text-base text-slate-100">Malaysian Tax RAG Status</h2>
+              <Link
+                href="/knowledge"
+                className="text-xs text-blue-400 hover:text-blue-300 font-medium flex items-center gap-1 transition group"
+              >
+                <span>Manage</span>
+                <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+              </Link>
+            </div>
+
             <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 mb-4 space-y-3">
               <div className="text-sm font-semibold text-emerald-400 flex items-center gap-2">
                 <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                <span>5 Official Documents Ingested</span>
+                <span>{documents.length || 5} Official Documents Ingested</span>
               </div>
-              <ul className="text-xs text-slate-300 space-y-1.5 pl-4 list-disc leading-relaxed">
-                <li>LHDN e-Invoice Guidelines v3.0</li>
-                <li>LHDN Specific Guidelines (B2B/B2C)</li>
-                <li>RMCD Service Tax Guide (8% Rate)</li>
-                <li>RMCD Sales Tax on LVG Guide (10%)</li>
-                <li>LHDN Public Ruling 1/2024 (WHT)</li>
+              <ul className="text-xs text-slate-300 space-y-2 leading-relaxed">
+                {documents.length > 0 ? (
+                  documents.slice(0, 5).map((doc) => (
+                    <li key={doc.doc_name} className="flex items-center justify-between gap-2">
+                      <span className="truncate max-w-[210px] text-slate-200" title={doc.doc_name}>
+                        {doc.doc_name}
+                      </span>
+                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-400 font-mono whitespace-nowrap">
+                        {doc.chunks_count} chunks
+                      </span>
+                    </li>
+                  ))
+                ) : (
+                  <>
+                    <li className="truncate">20261104-PR-5_Taxation-Of-A-Resident...pdf</li>
+                    <li className="truncate">IRBM-e-Invoice-Guideline.pdf</li>
+                    <li className="truncate">lhdnm-e-invoice-general-faqs.pdf</li>
+                    <li className="truncate">PR-No.4_2026-Special-Allowances...pdf</li>
+                    <li className="truncate">pr_03_2026-bilateral-credit...pdf</li>
+                  </>
+                )}
               </ul>
             </div>
             <div className="text-xs text-slate-400 space-y-2">
               <div className="flex items-center gap-2">
                 <Database className="w-3.5 h-3.5 text-blue-400" />
-                <span>Vector: <strong className="text-slate-200 font-mono">pgvector (768d HNSW)</strong></span>
+                <span>Vector: <strong className="text-slate-200 font-mono">pgvector ({documents.reduce((acc, d) => acc + d.chunks_count, 0) || 385} chunks)</strong></span>
               </div>
               <div className="flex items-center gap-2">
                 <Bot className="w-3.5 h-3.5 text-purple-400" />
-                <span>Model: <strong className="text-slate-200 font-mono">gemini-flash-lite</strong></span>
+                <span>Model: <strong className="text-slate-200 font-mono">gemini-embedding-001 (768d)</strong></span>
               </div>
             </div>
           </div>
