@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 :root {
+  color-scheme: dark;
   --background: #0b0f19;
   --foreground: #f8fafc;
   --card: #111827;
@@ -10,6 +11,15 @@
   --border: #1e293b;
   --primary: #1d4ed8;
   --primary-foreground: #ffffff;
+}
+
+select {
+  color-scheme: dark;
+}
+
+select option {
+  background-color: #0f172a;
+  color: #f1f5f9;
 }
 
 body {

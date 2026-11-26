@@ -125,10 +125,12 @@ export default function PipelineKanbanPage() {
                         <select
                           value={opp.stage}
                           onChange={(e) => handleStageChange(opp.id, e.target.value as OpportunityStage)}
-                          className={`${theme.selectBg} ${theme.selectText} border ${theme.selectBorder} rounded-lg px-2 py-1 text-xs font-medium focus:outline-none cursor-pointer transition`}
+                          className={`${theme.selectBg} ${theme.selectText} border ${theme.selectBorder} rounded-lg px-2.5 py-1 text-xs font-semibold focus:outline-none cursor-pointer transition shadow-sm hover:brightness-125`}
                         >
                           {STAGES.map((s) => (
-                            <option key={s} value={s} className="bg-slate-900 text-slate-200">{s}</option>
+                            <option key={s} value={s} className="bg-slate-900 text-slate-200 py-1">
+                              {s}
+                            </option>
                           ))}
                         </select>
                       </div>
