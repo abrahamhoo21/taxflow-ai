@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { FileText, Building2 } from 'lucide-react';
 import { Opportunity, OpportunityStage } from '@/types/crm';
+import { STAGE_THEMES } from '@/constants/crm';
 
 const STAGES: OpportunityStage[] = ['New', 'Contacted', 'Qualified', 'Proposal', 'Won'];
 
@@ -73,21 +74,23 @@ export default function PipelineKanbanPage() {
         {STAGES.map((stage) => {
           const stageOpps = opportunities.filter(o => o.stage === stage);
           const stageTotalRM = stageOpps.reduce((acc, curr) => acc + Number(curr.value_rm || 0), 0);
+          const theme = STAGE_THEMES[stage] || STAGE_THEMES.New;
 
           return (
             <div
               key={stage}
-              className="bg-[#0e1424] rounded-2xl p-4 border border-slate-800 flex flex-col min-h-[550px]"
+              className={`bg-[#0e1424] rounded-2xl p-4 border border-slate-800 border-t-2 ${theme.borderTop} flex flex-col min-h-[550px] shadow-sm`}
             >
               {/* Column Header */}
-              <div className="flex items-center justify-between pb-3.5 border-b border-slate-800 mb-3.5">
+              <div className="flex items-center justify-between pb-3.5 border-b border-slate-800/80 mb-3.5">
                 <div className="flex items-center gap-2">
-                  <span className="font-bold text-sm text-slate-200">{stage}</span>
-                  <span className="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 font-mono font-semibold">
+                  <span className={`w-2 h-2 rounded-full ${theme.dotColor}`}></span>
+                  <span className="font-bold text-sm text-slate-100">{stage}</span>
+                  <span className={`text-[11px] px-2 py-0.5 rounded-full ${theme.badgeBg} ${theme.badgeText} border ${theme.badgeBorder} font-mono font-semibold`}>
                     {stageOpps.length}
                   </span>
                 </div>
-                <span className="text-xs text-amber-400 font-mono font-bold">
+                <span className={`text-xs font-mono font-bold ${theme.priceText}`}>
                   RM {stageTotalRM.toLocaleString('en-US', { minimumFractionDigits: 0 })}
                 </span>
               </div>
@@ -102,9 +105,9 @@ export default function PipelineKanbanPage() {
                   stageOpps.map((opp) => (
                     <div
                       key={opp.id}
-                      className="p-4 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 shadow-sm transition space-y-2.5"
+                      className={`p-4 rounded-xl ${theme.cardBg} border border-slate-800/90 border-l-4 ${theme.cardBorderLeft} ${theme.cardHoverBorder} shadow-sm transition space-y-2.5 group`}
                     >
-                      <div className="font-semibold text-sm text-slate-100 leading-snug">
+                      <div className="font-semibold text-sm text-slate-100 leading-snug group-hover:text-white transition">
                         {opp.title}
                       </div>
 
@@ -113,8 +116,8 @@ export default function PipelineKanbanPage() {
                         <span>{opp.lead?.company || 'Corporate Client'}</span>
                       </div>
 
-                      <div className="flex items-center justify-between pt-2.5 border-t border-slate-800 text-xs">
-                        <span className="font-bold text-amber-400 font-mono text-sm">
+                      <div className="flex items-center justify-between pt-2.5 border-t border-slate-800/80 text-xs">
+                        <span className={`font-bold font-mono text-sm ${theme.priceText}`}>
                           RM {Number(opp.value_rm).toLocaleString('en-US', { minimumFractionDigits: 0 })}
                         </span>
                         
@@ -122,10 +125,10 @@ export default function PipelineKanbanPage() {
                         <select
                           value={opp.stage}
                           onChange={(e) => handleStageChange(opp.id, e.target.value as OpportunityStage)}
-                          className="bg-slate-800 border border-slate-700 rounded-lg px-2 py-1 text-xs text-slate-300 focus:outline-none focus:border-blue-500 cursor-pointer"
+                          className={`${theme.selectBg} ${theme.selectText} border ${theme.selectBorder} rounded-lg px-2 py-1 text-xs font-medium focus:outline-none cursor-pointer transition`}
                         >
                           {STAGES.map((s) => (
-                            <option key={s} value={s}>{s}</option>
+                            <option key={s} value={s} className="bg-slate-900 text-slate-200">{s}</option>
                           ))}
                         </select>
                       </div>
