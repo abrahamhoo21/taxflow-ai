@@ -58,8 +58,8 @@
 ### 2. Installation
 ```bash
 # Clone repository
-git clone <your-repo-url>
-cd "YYC Assessment"
+git clone https://github.com/abrahamhoo21/taxflow-ai.git
+cd taxflow-ai
 
 # Install dependencies
 npm install
